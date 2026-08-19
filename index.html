@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מה מבשלים היום? · מזווה המתכונים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@300;400;600;700&family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF3E2;
+  --ink:#15191C;
+  --petrol:#1B6474;
+  --pink:#EE5348;
+  --gold:#F0B32E;
+  --green:#54864A;
+  --muted:#7C7566;
+  --line:rgba(21,25,28,.16);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Assistant',system-ui,sans-serif;font-size:17px;line-height:1.55;
+  background-image:radial-gradient(rgba(21,25,28,.07) 1px, transparent 1px);
+  background-size:18px 18px;-webkit-text-size-adjust:100%;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px 90px}
+button{font-family:'Heebo',sans-serif;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* ============ HERO ============ */
+.hero{
+  background:var(--petrol);color:var(--paper);
+  border:3px solid var(--ink);border-radius:22px;
+  margin:22px 0 0;padding:28px 30px 24px;position:relative;overflow:hidden;
+  box-shadow:8px 8px 0 var(--ink);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(251,243,226,.16) 1px, transparent 1px);
+  background-size:14px 14px;
+}
+.hero-grid{display:grid;gap:22px;align-items:center;position:relative;z-index:2}
+@media(min-width:820px){.hero-grid{grid-template-columns:1.15fr .85fr}}
+.eyebrow{font-family:'Heebo';font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--gold);margin:0 0 10px}
+h1{font-family:'Suez One',serif;font-size:clamp(36px,7vw,66px);line-height:.98;margin:0 0 12px;letter-spacing:-1px}
+h1 em{font-style:normal;color:var(--gold);display:block}
+.lede{font-size:17px;max-width:44ch;margin:0 0 18px;color:#DDEBEC}
+.status{display:flex;flex-wrap:wrap;gap:9px;align-items:center;font-family:'Heebo';font-size:12.5px;color:#BEDADD}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block;margin-inline-end:5px}
+.dot.err{background:var(--pink)}
+.ghost{background:transparent;border:1.5px solid rgba(251,243,226,.5);color:var(--paper);border-radius:999px;padding:5px 13px;font-size:12.5px}
+.ghost:hover{background:var(--paper);color:var(--petrol);border-color:var(--paper)}
+.pot-stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:210px}
+.pot-stage svg{width:min(290px,88%);height:auto;overflow:visible}
+.steam{animation:rise 3.4s ease-in-out infinite}
+.steam:nth-of-type(2){animation-delay:.7s}
+.steam:nth-of-type(3){animation-delay:1.4s}
+@keyframes rise{0%{opacity:0;transform:translateY(6px)}35%{opacity:.9}100%{opacity:0;transform:translateY(-14px)}}
+.float{animation:bob 5s ease-in-out infinite}
+.float.b{animation-delay:1.2s}
+.float.c{animation-delay:2.4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(-5deg)}}
+.sticker{
+  position:absolute;inset-inline-start:-6px;top:2px;width:100px;height:100px;border-radius:50%;
+  background:var(--pink);border:3px solid var(--ink);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;transform:rotate(-9deg);box-shadow:5px 5px 0 var(--ink);
+}
+.sticker b{font-family:'Suez One';font-size:36px;line-height:.9;color:var(--paper)}
+.sticker span{font-family:'Heebo';font-size:10.5px;font-weight:700;letter-spacing:.08em;color:#FFE9D6}
+
+/* ============ LAYOUT ============ */
+.layout{display:grid;gap:26px;margin-top:26px;align-items:start}
+@media(min-width:920px){.layout{grid-template-columns:296px 1fr}}
+
+/* ---- mobile filter bar ---- */
+.mobilebar{
+  position:sticky;top:0;z-index:40;display:flex;gap:10px;align-items:center;
+  background:var(--paper);padding:12px 0;border-bottom:3px solid var(--ink);margin-bottom:4px;
+}
+@media(min-width:920px){.mobilebar{display:none}}
+.mobilebar .grow{flex:1;font-family:'Heebo';font-size:13px;color:var(--muted)}
+
+/* ============ SIDEBAR ============ */
+.filters{
+  background:#fff;border:2.5px solid var(--ink);border-radius:18px;
+  box-shadow:6px 6px 0 var(--ink);padding:16px 16px 18px;
+}
+@media(min-width:920px){
+  .filters{position:sticky;top:16px;max-height:calc(100vh - 34px);overflow-y:auto}
+}
+@media(max-width:919px){
+  .filters{
+    position:fixed;inset-block:0;inset-inline-end:0;width:min(340px,88vw);z-index:60;
+    border-radius:18px 0 0 18px;box-shadow:none;overflow-y:auto;
+    transform:translateX(-105%);transition:transform .22s ease;
+  }
+  html[dir="rtl"] .filters{transform:translateX(-105%)}
+  body.drawer .filters{transform:translateX(0)}
+  .scrim{
+    position:fixed;inset:0;background:rgba(21,25,28,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s;
+  }
+  body.drawer .scrim{opacity:1;pointer-events:auto}
+  body.drawer{overflow:hidden}
+}
+.filters h2{
+  font-family:'Suez One';font-size:19px;margin:0 0 12px;display:flex;align-items:center;gap:8px;
+}
+.filters h2 svg{width:26px;height:26px}
+.closeDrawer{display:none;margin-inline-start:auto;border:2px solid var(--ink);background:var(--gold);border-radius:10px;padding:2px 10px;font-size:16px}
+@media(max-width:919px){.closeDrawer{display:block}}
+
+.search{position:relative;margin-bottom:10px}
+.search input{
+  width:100%;padding:10px 38px 10px 12px;border:2.5px solid var(--ink);border-radius:12px;
+  background:#fff;font-family:'Assistant';font-size:15.5px;color:var(--ink);
+}
+.search .mag{position:absolute;inset-inline-start:13px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted)}
+.sidebtns{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.btn{
+  border:2px solid var(--ink);background:#fff;border-radius:11px;padding:7px 12px;
+  font-size:13.5px;font-weight:500;color:var(--ink);transition:transform .1s,box-shadow .1s;
+}
+.btn:active{transform:translate(1px,1px)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn.dice{background:var(--gold)}
+.btn.wide{flex:1}
+.reset{border:none;background:none;color:var(--pink);font-size:13.5px;font-weight:600;text-decoration:underline;padding:6px 2px}
+
+/* ---- accordion ---- */
+details.group{border-top:2px dashed var(--line);padding:2px 0}
+details.group:first-of-type{border-top:none}
+details.group summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;
+  padding:11px 2px;font-family:'Heebo';font-size:13.5px;font-weight:700;letter-spacing:.03em;
+}
+details.group summary::-webkit-details-marker{display:none}
+details.group summary svg{width:24px;height:24px;flex:none}
+summary .picked{
+  font-size:11px;background:var(--pink);color:#fff;border-radius:999px;padding:1px 7px;font-weight:700;
+}
+summary .sign{
+  margin-inline-start:auto;width:22px;height:22px;border:2px solid var(--ink);border-radius:7px;
+  display:grid;place-items:center;font-size:15px;line-height:1;background:var(--paper);
+}
+details.group[open] summary .sign{background:var(--ink);color:var(--paper)}
+details.group[open] summary .sign::after{content:"–"}
+details.group summary .sign::after{content:"+"}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 14px}
+.chip{
+  border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;
+  padding:4px 11px;font-size:14px;font-family:'Assistant';display:inline-flex;align-items:center;gap:6px;
+}
+.chip .n{font-family:'Heebo';font-size:10.5px;font-weight:700;background:rgba(21,25,28,.09);border-radius:999px;padding:1px 6px;min-width:19px;text-align:center}
+.chip:hover{box-shadow:2px 2px 0 var(--ink)}
+.chip[aria-pressed="true"]{background:var(--pink);color:#fff;font-weight:600;box-shadow:2px 2px 0 var(--ink)}
+.chip[aria-pressed="true"] .n{background:rgba(255,255,255,.28);color:#fff}
+.chip.empty{opacity:.3}
+
+/* ============ RESULTS ============ */
+.resulthead{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:20px;
+}
+.resulthead b{font-family:'Suez One';font-size:30px;color:var(--pink);line-height:1}
+.resulthead span{font-family:'Heebo';font-size:12.5px;letter-spacing:.08em;color:var(--muted)}
+.activetags{display:flex;flex-wrap:wrap;gap:6px;margin-inline-start:auto}
+.activetags button{
+  font-family:'Heebo';font-size:11.5px;background:var(--ink);color:var(--paper);
+  border:none;border-radius:999px;padding:3px 9px;
+}
+.activetags button::after{content:" ✕"}
+.cards{display:grid;gap:20px}
+@media(min-width:1120px){.cards{grid-template-columns:1fr 1fr}}
+.recipe{
+  background:#fff;border:2.5px solid var(--ink);border-radius:16px;padding:18px 20px 16px;
+  position:relative;box-shadow:6px 6px 0 var(--c,var(--petrol));
+}
+.recipe .badge{
+  position:absolute;top:-18px;inset-inline-end:20px;width:50px;height:50px;border-radius:14px;
+  background:var(--c,var(--petrol));border:2.5px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;transform:rotate(6deg);
+}
+.recipe .badge svg{width:30px;height:30px}
+.recipe h3{font-family:'Suez One',serif;font-size:21px;line-height:1.3;margin:4px 0 10px;padding-inline-end:62px;min-height:34px}
+.hits{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px}
+.hits span{font-family:'Heebo';font-size:11.5px;font-weight:500;background:var(--paper);border:1.5px solid var(--ink);border-radius:999px;padding:2px 9px}
+dl.row{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin:0;font-size:15.5px}
+dl.row dt{font-family:'Heebo';font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--muted);padding-top:5px;white-space:nowrap}
+dl.row dd{margin:0;padding-bottom:6px;border-bottom:1.5px dotted var(--line);white-space:pre-line;overflow-wrap:anywhere}
+dl.row dd.none{color:#C3BCAC}
+.pair{display:contents}
+mark{background:var(--gold);color:var(--ink);border-radius:3px;padding:0 2px}
+.freeze-flag{display:inline-block;font-family:'Heebo';font-size:11px;font-weight:700;background:var(--petrol);color:var(--paper);border-radius:999px;padding:2px 9px;margin-inline-start:6px}
+.empty-state{text-align:center;padding:56px 22px;border:3px dashed var(--ink);border-radius:18px;color:var(--muted)}
+.empty-state b{display:block;font-family:'Suez One';font-size:23px;color:var(--ink);margin-bottom:8px}
+.empty-state svg{width:64px;height:64px;margin-bottom:12px}
+footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-family:'Heebo';font-size:12.5px;color:var(--muted);line-height:1.9}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ספריית איורים -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<g id="i-pot"><path d="M5 15h30v13a7 7 0 0 1-7 7H12a7 7 0 0 1-7-7z"/><rect x="2" y="10" width="36" height="5" rx="2.5"/><circle cx="20" cy="8" r="2"/></g>
+<g id="i-drum"><circle cx="14" cy="15" r="10"/><path d="M20 21l8 8" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="31" cy="31" r="5"/></g>
+<g id="i-fillet"><path d="M5 24c1-11 12-17 22-15 9 2 9 13 2 17-9 5-21 6-24-2z"/><path d="M12 22c5-4 12-5 17-2" fill="none" stroke-width="1.6"/></g>
+<g id="i-balls"><circle cx="12" cy="26" r="8"/><circle cx="28" cy="26" r="8"/><circle cx="20" cy="14" r="8"/></g>
+<g id="i-fish"><path d="M3 20c5-8 15-11 22-6l7-6-1 12 1 12-7-6c-7 5-17 2-22-6z"/><circle cx="12" cy="17" r="1.8" fill="#15191C" stroke="none"/></g>
+<g id="i-steak"><path d="M7 15c3-7 21-9 25-2s-2 17-11 18S4 22 7 15z"/><path d="M15 17c4-3 9-2 11 2" fill="none" stroke-width="1.6"/></g>
+<g id="i-can"><ellipse cx="20" cy="13" rx="14" ry="5"/><path d="M6 13v13c0 3 6 5 14 5s14-2 14-5V13"/><path d="M15 11h10" fill="none" stroke-width="1.6"/></g>
+<g id="i-egg"><ellipse cx="20" cy="23" rx="11" ry="14"/><path d="M13 19c0-4 2-7 5-8" fill="none" stroke-width="1.6"/></g>
+<g id="i-bowl"><path d="M4 19h32c0 9-7 15-16 15S4 28 4 19z"/><circle cx="14" cy="13" r="2.4"/><circle cx="21" cy="9" r="2.4"/><circle cx="27" cy="14" r="2.4"/></g>
+<g id="i-rice"><path d="M4 19h32c0 9-7 15-16 15S4 28 4 19z"/><path d="M11 13c3-2 5-2 7 0M20 8c3-2 5-2 7 0M15 6c2-2 4-2 6 0" fill="none" stroke-width="1.8" stroke-linecap="round"/></g>
+<g id="i-pasta"><path d="M4 19h32c0 9-7 15-16 15S4 28 4 19z"/><path d="M9 15c4-9 8 3 11-6M22 15c4-9 8 3 10-5" fill="none" stroke-width="1.8" stroke-linecap="round"/></g>
+<g id="i-potato"><ellipse cx="20" cy="21" rx="16" ry="12" transform="rotate(-14 20 21)"/><circle cx="15" cy="18" r="1.5" fill="#15191C" stroke="none"/><circle cx="24" cy="24" r="1.5" fill="#15191C" stroke="none"/><circle cx="26" cy="16" r="1.2" fill="#15191C" stroke="none"/></g>
+<g id="i-bread"><path d="M5 23c0-9 6-14 15-14s15 5 15 14v9H5z"/><path d="M13 15l-3 6M20 14l-3 7M27 15l-3 6" fill="none" stroke-width="1.6" stroke-linecap="round"/></g>
+<g id="i-carrot"><path d="M20 37 11 17c5-4 13-4 18 0z"/><path d="M20 15V6M20 9l6-4M20 10l-6-5" fill="none" stroke-width="2" stroke-linecap="round"/></g>
+<g id="i-leaf"><path d="M34 6C15 6 6 15 6 34c19 0 28-9 28-28z"/><path d="M10 30 30 10" fill="none" stroke-width="1.8" stroke-linecap="round"/></g>
+<g id="i-mush"><path d="M4 21a16 13 0 0 1 32 0z"/><path d="M15 21h10v9a5 5 0 0 1-10 0z"/><circle cx="14" cy="15" r="2" fill="#15191C" stroke="none"/><circle cx="25" cy="16" r="1.6" fill="#15191C" stroke="none"/></g>
+<g id="i-pepper"><path d="M9 20c0-6 5-9 11-9s11 3 11 9c0 9-5 16-11 16S9 29 9 20z"/><path d="M20 11V6M20 6h5" fill="none" stroke-width="2" stroke-linecap="round"/></g>
+<g id="i-tomato"><circle cx="20" cy="23" r="13"/><path d="M20 10V5M20 10l6-3M20 10l-6-3" fill="none" stroke-width="2" stroke-linecap="round"/></g>
+</defs>
+</svg>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">מזווה המתכונים · מתעדכן מהגיליון</p>
+      <h1>מה מבשלים<em>היום?</em></h1>
+      <p class="lede">סמני מה יש במקרר, וקבלי רק את המתכונים שמתאימים — עם השורה המלאה מהגיליון, בדיוק כמו שכתבתן אותה.</p>
+      <div class="status">
+        <span><span class="dot" id="dot"></span><span id="statusText">טוען מהגיליון…</span></span>
+        <button class="ghost" id="refresh">רענון</button>
+        <button class="ghost" id="openSheet">פתיחת הגיליון</button>
+      </div>
+    </div>
+    <div class="pot-stage">
+      <svg viewBox="0 0 260 210" fill="none" stroke="#15191C" stroke-width="3">
+        <g class="float" transform="translate(18,26)"><g fill="#EE5348" transform="scale(1.05)"><use href="#i-tomato"/></g></g>
+        <g class="float b" transform="translate(200,18)"><g fill="#F0B32E"><use href="#i-carrot"/></g></g>
+        <g class="float c" transform="translate(206,86)"><g fill="#54864A"><use href="#i-leaf"/></g></g>
+        <g class="steam" stroke="#F0B32E" stroke-width="5" stroke-linecap="round" opacity="0"><path d="M104 74c-7-10 7-14 0-25"/></g>
+        <g class="steam" stroke="#FBF3E2" stroke-width="5" stroke-linecap="round" opacity="0"><path d="M130 68c-7-12 7-16 0-28"/></g>
+        <g class="steam" stroke="#EE5348" stroke-width="5" stroke-linecap="round" opacity="0"><path d="M156 74c-7-10 7-14 0-25"/></g>
+        <rect x="46" y="112" width="168" height="74" rx="22" fill="#F0B32E"/>
+        <rect x="34" y="92" width="192" height="22" rx="11" fill="#FBF3E2"/>
+        <circle cx="130" cy="82" r="8" fill="#EE5348"/>
+        <path d="M46 128H30a10 10 0 0 0 0 20h16M214 128h16a10 10 0 0 1 0 20h-16" fill="#F0B32E"/>
+        <path d="M74 146c14 10 30 10 44 0s30-10 44 0" stroke="#15191C" stroke-width="3" opacity=".35"/>
+      </svg>
+      <div class="sticker"><b id="count">0</b><span>מתכונים</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobilebar">
+  <button class="btn" id="openDrawer">סינון <span id="drawerCount"></span></button>
+  <span class="grow" id="mobileCount"></span>
+  <button class="btn dice" id="diceM">הגרילי מנה</button>
+</div>
+
+<div class="layout">
+  <aside class="filters" id="filters">
+    <h2>
+      <svg viewBox="0 0 40 40" fill="#fff" stroke="#15191C" stroke-width="2.4" stroke-linejoin="round"><use href="#i-pot"/></svg>
+      המזווה
+      <button class="closeDrawer" id="closeDrawer" aria-label="סגירת הסינון">✕</button>
+    </h2>
+    <div class="search">
+      <span class="mag">⌕</span>
+      <input id="q" type="search" placeholder="חיפוש חופשי…" aria-label="חיפוש חופשי">
+    </div>
+    <div class="sidebtns">
+      <button class="btn wide" id="modeBtn" aria-pressed="true">כל הסימונים</button>
+      <button class="btn wide" id="freezeBtn" aria-pressed="false">ניתן להקפיא</button>
+    </div>
+    <div class="sidebtns">
+      <button class="btn dice wide" id="dice">הגרילי מנה</button>
+      <button class="reset" id="reset">ניקוי</button>
+    </div>
+    <div id="pantry"></div>
+  </aside>
+
+  <main>
+    <div class="resulthead">
+      <b id="countMain">0</b>
+      <span id="ofTotal"></span>
+      <div class="activetags" id="activetags"></div>
+    </div>
+    <div id="results" class="cards"></div>
+  </main>
+</div>
+
+<footer>
+  האתר קורא את הגיליון בזמן אמת — כל עדכון בשיטס מופיע כאן אחרי רענון.<br>
+  לקריאה חיה הגיליון צריך להיות משותף במצב "כל מי שיש לו הקישור — צופה", או מפורסם כ-CSV.<br>
+  אם הקריאה נחסמת, האתר עובר לעותק מקומי של הנתונים ומציין זאת למעלה.
+</footer>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<script>
+/* ====== מקור הנתונים ====== */
+const SHEET_ID = "1YUXcqwtndsEqrfu7kVLLtfn5cCLA6pJnDOUgoezcWlk";
+const GID = "0";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=${GID}`;
+const CSV_URL = () => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&cachebust=${Date.now()}`;
+
+/* ====== מזווה: חומרי גלם + מילים נרדפות ====== */
+const PANTRY = [
+  {group:"חלבון", items:[
+    ["חזה עוף",[]],
+    ["עוף טחון",[]],
+    ["עוף בחלקים",[]],
+    ["הודו",["הודו"]],
+    ["בשר בקר",["בשר","בקר","סטייק","סטייקים","גולש","קבב","המבורגר"]],
+    ["דגים",["מושט","מושטים","בקלה","דג","דגים","סלמון","פילה","חריימה"]],
+    ["טונה",["טונה"]],
+    ["ביצים",["ביצה","ביצים"]],
+    ["עדשים",["עדשים"]],
+    ["חומוס",["חומוס"]],
+    ["נקניקיות",["נקניקיות","נקניקיה","נקניקייה"]],
+  ]},
+  {group:"פחמימה", items:[
+    ["אורז",["אורז"]],
+    ["פסטה ונודלס",["פסטה","ספגטי","נודלס","מקרוני"]],
+    ["פתיתים",["פתיתים","פתיתם"]],
+    ["קוסקוס",["קוסקוס"]],
+    ["תפוחי אדמה",["תפוא","תפוחי אדמה","תפודים","פירה","ציפס","צפס"]],
+    ["בטטה",["בטטה","בטטות"]],
+    ["בורגול",["בורגול"]],
+    ["קינואה",["קינואה"]],
+    ["לחם ומאפים",["לחם","חלה","חלות","לחמניה","לחמנייה","באגט","פיתה","פיתות","טורטיה","טורטיות","לאפה","בצק","פיצה","ברוסקטות","פירורים"]],
+  ]},
+  {group:"ירקות", items:[
+    ["בצל",["בצל","בצלים"]],
+    ["שום",["שום"]],
+    ["גזר",["גזר","גזרים"]],
+    ["קישוא",["קישוא","קישואים"]],
+    ["עגבניות",["עגבניה","עגבנייה","עגבניות","רסק","קטשופ"]],
+    ["פלפלים",["פלפלים","גמבה","פלפל אדום","פלפל ממולא"]],
+    ["פטריות",["פטריות","פטריה"]],
+    ["דלעת ודלורית",["דלעת","דלורית"]],
+    ["ברוקולי",["ברוקולי"]],
+    ["שעועית ירוקה",["שעועית","שעוית","שועית"]],
+    ["אפונה",["אפונה"]],
+    ["חסה",["חסה"]],
+    ["מלפפון",["מלפפון","מלפפונים","מללפון"]],
+    ["כרוב",["כרוב"]],
+    ["קולורבי",["קולורבי","קולרבי"]],
+    ["סלרי",["סלרי"]],
+    ["נבטים",["נבטים"]],
+  ]},
+  {group:"אופן ההכנה", items:[
+    ["סיר אחד",["בסיר אחד","סיר אחד","תבנית אחת","בתבנית אחת"]],
+    ["תנור",["תנור","לאפות","אופים","אפיה","אפייה"]],
+    ["מחבת והקפצה",["מחבת","לטגן","מטגנים","מטגנת","מוקפץ","מקפיצים","מוקפצים"]],
+    ["מרק",["מרק"]],
+    ["סלט",["סלט"]],
+    ["משאריות שבת",["שנשאר","שנשארו","שאריות","משבת","מכובס"]],
+    ["מיניק / פלטה",["מיניק","מיני","פלטה"]],
+  ]},
+];
+
+/* ====== עזרי טקסט ====== */
+const clean = s => (s||"").replace(/[\u0591-\u05C7]/g,"").replace(/["'`׳״]/g,"").replace(/\\+/g," / ").replace(/\s+/g," ").trim();
+// מסירים ביטויי תיבול שיוצרים התאמות שווא (אבקת מרק עוף, גריל עוף וכו')
+const denoise = t => t
+  .replace(/א(בקת)?\.?\s*מרק\s+\S+/g," ")
+  .replace(/מרק\s+עוף/g," ")
+  .replace(/גריל\s+עוף/g," ")
+  .replace(/פירורי\s+לחם/g," פירורים ");
+
+const PREFIX = "[ובלמהשכ]?";
+const rx = alias => new RegExp("(?:^|[^\\u0590-\\u05FF])" + PREFIX + alias.replace(/\s+/g,"\\s+") + "(?![\\u0590-\\u05FF])");
+
+/* ====== CSV ====== */
+function parseCSV(text){
+  const rows=[]; let row=[], cell="", q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c === '"'){ if(text[i+1] === '"'){cell+='"';i++;} else q=false; }
+      else cell+=c;
+    } else {
+      if(c === '"') q=true;
+      else if(c === ","){ row.push(cell); cell=""; }
+      else if(c === "\n"){ row.push(cell); rows.push(row); row=[]; cell=""; }
+      else if(c !== "\r") cell+=c;
+    }
+  }
+  row.push(cell); rows.push(row);
+  return rows;
+}
+
+/* ====== נתוני גיבוי (תמונת מצב מהגיליון) ====== */
+const FALLBACK_HEADERS = ["חלבון","פחמימה","ירק","פירוט / הערות / מתכון בקצרה","ניתן להקפיא?","הכותבת","הערה"];
+const FALLBACK_ROWS = [
+["עראייס עוף","","סלט חסה / ירקות חתוכים","עראייס רגיל על בסיס עוף / הודו טחון. מומלץ להוסיף עלי פטרוזיליה / כוסברה","כן","",""],
+["גולש קציצות","תפוא","אפשר להוסיף לסיר ירק","מטגנת קלות קוביות תפוא, מוסיפה רוטב כלשהו, מגלגלת קציצות, מבשלת עם סיר פתוח כך שהרוטב יצטמצם קצת","לא","",""],
+["בולונז טונה","פסטה","בתוך הטונה אפשר אפונה וגזר, או תוספת ירק אחרת","טיגון בצל, שום, טונה, להוסיף רסק, מים, תבלינים, מעט סוכר, לבשל רבע שעה","לא","ליאו",""],
+["בולונז עוף / בשר","פסטה","גזר, בצל ועגבניה בתוך הבולונז","לטגן בצל, להוסיף גזר מגורד, עגבניה מגורדת, לטגן, להוסיף עוף / בשר טחון, להוסיף רסק ותבלינים + מים רותחים, להוסיף פסטה, לבשל 10-15 דקות, לכבות ולחכות שהמים ייספגו","","אהבת הים",""],
+["חומוס שימורים ואפשר נתחי עוף","קוסקוס","מרק קוסקוס","בצל חתוך לחתיכות גסות, עליו גזר, דלורית, קישוא, קולורבי, סלרי אמריקאי, כמון, כורכום, מלח, פלפל ומים - ארבעים דקות","","ליאו",""],
+["קציצות עוף טחון ואורז","פירה","","מתכון לקציצות (במקור מילוי לכרוב ממולא): 1 בצל, 1 קג עוף טחון, 1 כוס אורז לפני בישול, כף מלח, כף רסק, 1 ביצה. לבשל ברוטב שהורתח: 3-4 כפות רסק, 3 כוסות מים, כפית שטוחה סוכר, קצת מלח","","אהבת הים",""],
+["מושט","אורז","שעועית ירוקה","","","",""],
+["פיצה בשרית משאריות עוף","פיצה","","חותכת עוף שנשאר לקוביות / שערות, מערבבת עם טריאקי, מקפיצה עם קצת בצל ופטריות, שמה על בצק של פיצה (אפשר להשאיר משישי במקפיא תבנית עם בצק של החלות)","","",""],
+["עוף בסיר עם תפוחי אדמה, בטטות וגזר בתיבול פפריקה ושום","","","","","",""],
+["ברוסקטות בשר מפורק","פרוסות חלה אפויות בתנור משוחות בשמן ותבלינים","סלט ישראלי קצוץ עם טחינה גולמית","לוקחים את הבשר בקר שנשאר משבת, מפרקים, שמים על הברוסקטות שהן פרוסות חלה שנשארו משבת משוחות בשמן ותבלינים ואופים עוד 7 דקות","","ליאו",""],
+["שווארמה","פירה / אורז","שעועית ירוקה / אפונה / קישואים","לאדות הרבה בצל, לחתוך חזה לרצועות, לתבל לפי איך שאוהבים + קמח לריכוך, להוסיף לבצל","","אהבת הים",""],
+["שניצלים","פירה / אורז","","","","",""],
+["מושט שניצל","פרוסות בטטה ותפוחי אדמה בתנור מתובל בשמן + פפריקה + מלח + שום גבישי + אופציונלי אבקת מרק - מכסים בנייר אפיה","בטטה נחשב לירק?","מפזרים פירורי לחם על נייר אפיה, מניחים מושטים ומפזרים מלח, מורחים על המושט תערובת של מיונז, אבקת מרק עוף וחרדל אם אוהבים, ומעל מפזרים שוב פירורי לחם וספריי שמן","","",""],
+["סטייקים במחבת פסים","","","","","",""],
+["סלט עוף - רצועות של עוף שנשארו משבת, קרות, חתוכות קטן","ריבועי בטטה צלויים בתוך הסלט או לחמניה ליד","ירקות הסלט","חסה שלמה, אגוזים איזה שיש, חצי כוס חמוציות, בצל סגול אחד שלם, בטטה קוביות אפויה או מטוגנת. רוטב: רוטב סויה, סוכר חום, אבקת שום, חומץ ושמן","","ליאו",""],
+["פיש אנד ציפס","ציפס","","לעשות תערובת של בירה וקמח, לצפות מושט ולטגן","","אהבת הים",""],
+["עוף עם אורז בתבנית אחת","אורז","","אורז לערבב עם שמן ותבלינים (פפריקה מעושנת / טימין / גרלוף), מים פי שתיים + עוף, מעט תבלינים, לכסות טוב טוב ולתנור שעתיים +","","",""],
+["קוביות חזה עם פטריות","אורז / פירה","","לטגן בצל, להוסיף פטריות ואבקת מרק פטריות, ואז להוסיף קוביות חזה","","אהבת הים",""],
+["שניצל עוף","אורז","","במיניק - כוס אורז + 2 כוסות מים, מעליו מניחה פרוסות עוף שמטובל לפני בשמן, פלפל, מלח, אבקת מרק. סוגרים את המיניק לרבע שעה דלוק על הכי גבוה ומכבים ללפחות רבע שעה","","",""],
+["","","מרק כתום","לבשל ירקות: גזר, בטטה, דלעת, דלורית, קישוא, בצל. כשרותח להוסיף עדשים אדומות, לבשל 40 דקות, להוסיף תבלינים ולטחון","","אהבת הים",""],
+["מושט","","","מניחים במיניק פרוסות בצל, מעליהן את המושט, ואז מורחים בשמן, מלח, פלפל ואבקת מרק","","",""],
+["שיפודי שניצל","","","שופכת לקערה פירורי לחם + שמן + תבלינים + מלח, מערבבת היטב, מוסיפה קוביות חזה עוף ומערבבת טוב, מכניסה לשיפודים ואז לתנור ל-25 דקות או למיניק ולהפוך צדדים","","",""],
+["קציצות טונה","תפוא ובטטות","","","","",""],
+["שניצל","קוסקוס","ירקות קוסקוס","","","",""],
+["חזה מוקפץ עם בצל","אורז","","חותכת חזה לקוביות, מקמחת, מוסיפה על בצל חצי מטוגן ושופכת סילאן + פפריקה או כל תבלין שמתחשק","","",""],
+["קציצות ברוטב","פירה","","מוסיפה לקציצות לחם רטוב, מגרדת לפעמים בצל וביצה אחת. הרוטב: החצי של הבצל, קצת תבלינים, מים רותחים (או רוטב אדום למי שאוהב)","","",""],
+["פשטידת הודו","","","אני מכינה מעוף, ושמה במקום כורכום פפריקה. 500 גר' הודו טחון, 1 כוס פירורי לחם (אפשר פחות), 3/4 כוס מים, 1/2 כוס שמן, 3 ביצים, 2 כפות קטשופ, 2 שיני שום כתושות, 1/2 כפית כורכום, 1/4 כפית פלפל שחור, 1/2 כפית כמון. לערבב הכל, לשטוח בתבנית ולאפות 30 דקות מכוסה ורבע שעה גלוי. (אפשר להוסיף ירקות קצוצים דק בסלייסר - יוצא מעולה, וככה הירקות כבר בפנים)","","פרפה",""],
+["שווארמה ותפוא ובטטות בסיר אחד","","","בסוטאז': בצל מטוגן, שווארמה, תפוחי אדמה ובטטה חתוכים גדול. פפריקה, מלח, פלפל שחור, שמן - אין צורך במים. לבשל על אש נמוכה אחרי רתיחה למשך שעתיים לפחות","","טיים",""],
+["חזה עוף במחבת","קוסקוס או פירה","מרק ירקות (כן, גם בקיץ - יש כאן חלק שאוכלים כל יום)","מתכון של ניקי שקיבלתי בקבוצה: https://nikib.co.il/main-course/117244","","צלש",""],
+["קוביות חזה מוקפץ עם גזר מגורד, רצועות גמבה ופטריות ברוטב טריאקי","ספגטי או נודלס - בדרך כלל מערבבת באותו סיר","","לטגן רצועות בצל להזהבה, להוסיף 4-5 גזרים מגורדים גס, רצועות מגמבה אחת ופרוסות פטריות, לטגן עד שהגזר מחליף צבע, להוסיף קוביות חזה, רוטב טריאקי, מלח ופלפל ולהקפיץ עד שהחזה מוכן. לערבב עם ספגטי או נודלס","","דבורי מינצברג",""],
+["קציצות בקלה טחון","פתיתים או פסטה","","כמו קציצות עוף רק בפרווה","","צלש",""],
+["שניצל בקלה","פירה או פתיתים","","לטגן כמו שניצל עוף","","צלש",""],
+["בולונז בשר טחון","פירה","קצת ירק עם הטחון","בצל קצוץ מטוגן במחבת או בסוטאז', מעליו בקר טחון, לפורר כל הזמן, להוסיף גזר / קישוא / שניהם מגורד דק, מלח, קוביית פטרוזיליה, לקראת הסוף מעט רוטב ברביקיו","","טראבל",""],
+["עוף בפלטה","תפוא","שעועית ירוקה דקה קפואה","תבנית אלומיניום חד פעמית, רצועות תפוא, מעל את העוף ומעל לפזר בצל ותבלינים. לכסות בנייר כסף, אפשר להניח מגבת מעל, להניח ישירות על הפלטה לכ-3 שעות. להוסיף את השעועית לעוד שעה. יוצא עוף רך רך","לא","כוסנה",""],
+["עוף סיני בשקית קוקי","אורז / קוסקוס","הרבה ירקות יחד עם העוף","רצועות חזה עוף מקומחות קלות, הרבה ירקות שמתאימים להקפצה - בעיקר פלפלים מכמה צבעים, בצל חי, אפשר גזר, קולורבי וכדומה, נבטים סיניים יוצא מאוד מוצלח. להכניס הכל יחד לשקית קוקי, להוסיף מלח וטיפ טיפה רוטב סויה, לערבב מחוץ לשקית, לסגור ולאפות בערך 40 דקות","","UU",""],
+["חזה עם אורז בסיר","אורז","אפשר להוסיף מה שאוהבים בתוך הסיר / בצד","לטגן בצל, אפשר בשלב זה להוסיף ירקות / פטריות, נגיד קישוא מגורד דק, גזר וכדומה. להוסיף חתיכות חזה עוף עדיף קטנות, אפשר לקמח, לטגן ממש מעט זמן. להוסיף כמה כוסות אורז, לטגן עוד 10 שניות, להוסיף מים כפול מהאורז, מלח - כפית לכל כוס אורז, ותיבול לפי הרצוי. חימום חוזר - מיקרוגל, או בתבנית עם קצת מים רותחים מכוסה בתנור","כן","UU",""],
+["שיפודי חזה עוף","אורז / קוסקוס / פירה / תפוא","עגבניה ובצל","מכינים משרה של שמן ותבלינים שאוהבים (פפריקה, פלפל, מלח וכדומה), מכניסים לזה קוביות חזה עוף להשריה. חותכים עגבניות שרי לחצאים או עגבניה רגילה, חותכים בצלים לחתיכות שלא יתפרקו לגלדים. מתבלים גם את העגבניה והבצל במשרה ומשפדים לסירוגין. אופים כשהשיפודים על שולי תבנית, עדיף חד פעמית","","UU",""],
+["חזה עוף מתוק","אורז","","חזה עוף חתוך לרצועות, מלח, קמח. לרוטב: 1 כף חרדל, 5 כפות קטשופ, 2 כפות שמן, 2 כפות חומץ, 2 כפות רוטב סויה, 1/2 כוס סוכר חום. לציפוי שומשום. להמליח את העוף ולקמח קלות, לסדר בתבנית, לערבב בקערה את כל חומרי הרוטב, לשפוך מעל העוף, לפזר שומשום. לאפות חצי שעה מכוסה ורבע שעה ללא כיסוי","","UU",""],
+["מושט מהיר","קוסקוס או פירה","ברוקולי או מה שאוהבים","המושט אפילו לא צריך להיות מופשר. מרפדים תבנית בבצל ועגבניות, שמים תבלינים שאוהבים על המושט עם קצת שמן, אפיה של כ-25 דקות","","UU",""],
+["שווארמה עוף משאריות עוף מכובס","לחמניה או בטטה","סלט ירקות גדול","חותכים עוף מכובס שנשאר מהמרק לחתיכות קטנות, עדיף לפרק ביד לשערות. מטגנים המון בצל, מוסיפים את חתיכות העוף, מלח, פלפל והרבה תבלין שווארמה. מטגנים עד שזה קריספי ודי יבש. מוציאים ישר מעל סלט ירקות ואוכלים מיד. סלט מתאים: חסה, עגבניה, מלפפון, כרוב, פלפל, גזר, נבטים, בצל סגול, פטריות חיות, בטטה מטוגנת, זיתים, גרעיני חמניה","","UU",""],
+["עדשים אדומות","בטטה / שקדי מרק","ירקות למרק כתום","מרק כתום עם עדשים אדומות זה ארוחה מלאה בסיר אחד. מטגנת בצל באידוי במים ובלי שמן, מוסיפה ירקות כתומים בשפע (דלעת, דלורית, גזר, בטטה), מוסיפה גם קישוא, מאדה מעט, מוסיפה מים עד למעלה ועדשים אדומות שהוחלטו קודם במים רותחים, ומבשלת עד ריכוך של הכל. מסננת חלק מהמים ושומרת אותם, מרסקת בבלנדר מקל. בחימום חוזר כדאי להוסיף מהמים ששמרנו","כן","UU",""],
+["עדשים ירוקות וכתומות","אורז","פלפל","לבשל אורז עם עדשים אדומות וירוקות, לטגן בצל בנפרד, להוסיף קוביות קטנות של עגבניה, לתבל ולאחד עם האורז. למלא את הפלפלים, להכין תערובת של רסק ומים רותחים, לשפוך מעל ולאפות כשעה - שעה וחצי","כן","אהבת הים","מתאים לימים של בין לבין"],
+["סלט ניסואז - חסה עם מלא דברים","לחמניה / באגט","חסה / מלפפון","מתאים ליום קיץ שלא רוצים מבושל: חסה, קוביות תפוא, בטטה, מלפפון חמוץ, ביצה קשה, טונה, עוד ירקות כיד הדמיון, ועל הכל רוטב צהוב של חסה","","",""],
+["שווארמה דג","טורטיה / אורז","","קוצצים מושט בלי עור לרצועות לא קטנות מדי. בינתיים מטגנים רצועות בצל עם קצת כמון / חוויאג', מוסיפים את הדג, מטגנים בעדינות שלא יתפרק, מוסיפים תבלין שווארמה / ראס אל חנות / כמון. מגישים על פירה או אורז או בתוך טורטיות","","חיה ב",""],
+["קציצות","","","עוף או הודו טחון, ירקות טחונים מהמרק של שבת (אני מכינה בדרך כלל את הקציצות האלה ביום ראשון), ביצים, פירורי לחם. מתכון טעים בטירוף, בריא ומשביע","כן","טיים",""],
+["קבב (אנחנו קונים קפוא)","פתיתים","","מטגנים בצל בקוביות קטנות. מכניסים את הקבב (חתוך ל-2), מטגנים עד שמוכן, מוציאים. מכניסים את הפתיתים לבצל, מבשלים כרגיל. בסיום מכניסים את הקבבים בחזרה, מערבבים ואוכלים","","מיוחי",""],
+["באגט שניצל","","סלט / בצל סומאק","מכינים שניצלים וצ'יפס וכל אחד מרכיב לעצמו כריך לטעמו. מתאים לימים שרוצים משהו קצת מיוחד","","",""],
+["עוף / כנפיים","אורז ותפוא","","מאדים מלא בצל, מוסיפים את חלקי העוף (אני עושה את זה המון עם כנפיים), מתבלים במלח בישול, פפריקה, שום. מוסיפים מים עד שיכסה את הכל, ופרוסות של תפוחי אדמה. מבשלים שעתיים בערך. את האורז אני מבשלת עם המים שבהם העוף התבשל - יוצא טעים טעים. על כל כוס אורז שמה 2 מצקות גדולות","","",""],
+["חזה עוף עם בצל ברוטב פטריות","","","לחתוך את החזה לרצועות דקות וארוכות, לצפות בקמח עם מלח ולטגן קלות (אני עושה הכל במיני). לאדות הרבה בצל עד להשחמה, להוסיף את רצועות החזה, לשפוך שקית של רוטב פטריות ומעט מים, לערבב היטב. לתת לזה להתבשל בערך 15-20 דקות. לא כדאי להוסיף הרבה מים - הבצל מפריש נוזלים","כן","",""],
+["קציצות הודו מטוגנות בפירורי לחם","","","חצי קילו הודו + 2 בצל + 3 שיני שום + 2-3 ביצים, 2-3 פרוסות חלה רטובה, מתובל בפפריקה, פלפל ואבקת מרק עוף. כל קציצה טובלים בפירורי לחם ומטגנים - אין צורך בשמן עמוק","כן","שוקולד חלב",""],
+["מרק אפונה וירקות","","","מטגנים בצל, מוסיפים גזר וכל הירקות שיש בבית, המון אפונה יבשה, מבשלים המון שעות על אש קטנה. ככל שהבצל מאודה טוב יותר, המרק טעים יותר","","חלזונות",""],
+["מושט","תפוא","גזר וקישוא","מניחים בסיר סוטאז' בצל, תפוא חתוך קטן, גזר, קישוא, אפשר גם חומוס משימורים. מעל מניחים מושטים, מתבלים במלח, פלפל, פפריקה מתוקה, שמן ומים. מבשלים על אש קטנה עד שהירקות מתרככים","לא","חלזונות",""],
+["","אורז","גזר","מאדים בצל וגזר, מוסיפים אורז ומבשלים עשרים דקות","כן","חלזונות",""],
+["שניצל עסיסי בתנור","","","חותכים חזה לחתיכות 2X2, שמים בתבנית עם רוטב: כוס שמן, כוס שומשום, פפריקה, מלח, פלפל, חרדל, כמון. מעסים את החזה ואופים נגיד 40 דקות. יוצא רך וטעים מאוד - השומשום עושה כאן את העבודה","כן","חלזונות",""],
+["שווארמה עסיסית בלי ללכלך כלים","פיתה / צ'יפס","סלט ירקות קלאסי / חמוצים","לוקחים פרוסות חזה עוף, שמים את כולן בתערובת של שמן + תבלינים בסגנון שווארמה + קורנפלור או קמח. לוקחים תבנית שתתאים בגודלה לפרוסות, שמים את הפרוסות במגדל אחת על השנייה, בין לבין אפשר לשים פרוסות בצל. מכסים בנייר כסף ואופים כ-40 דקות. כשמעט מתקרר חותכים את ערימת הפרוסות לשערות דקיקות","","עשרי",""],
+["תבשיל בטעם פלפל ממולא בסיר אחד","אורז","פלפלים","מטגנים בצל, מוסיפים קוביות פלפלים וממשיכים לאדות, מוסיפים עוף טחון, מתבלים ברסק עגבניות, מלח, פלפל, פפריקה וסוכר לאיזון. מוסיפים אורז ואבקת מרק עוף, מערבבים, מוסיפים כמות כפולה של מים, מרתיחים ומנמיכים להבה","","עשרי",""],
+["קציצות טונה + בורגול + סלט ירקות","בורגול","סלט ירקות","בורגול בתנור: שמים בתבנית את הכמות הרצויה, שמים שמן, מלח, פלפל, אבקת מרק עוף, מוסיפים מים בכמות כפולה מהבורגול, מכסים ושולחים לתנור לחצי שעה","","עשרי",""],
+["קוביות חזה עוף עם ירקות מוקפצים + נודלס","נודלס (או ספגטי / מקרוני)","ירקות רבים","מקפיצים קלות את חזות העוף (אפשר מקומח), מוציאים. מתחילים לטגן את הבצל, מוסיפים לפי סדר את הירקות הקשים - רצועות גזר, רצועות קישוא, פטריות ופלפלים (חובה). מתבלים ברוטב סויה, צ'ילי מתוק, שום, אבקת מרק עוף וקטשופ. מוסיפים את חזות העוף ומערבבים קלות, מוסיפים את הנודלס ומים לכיסוי, מרתיחים ומנמיכים להבה","","עשרי",""],
+["קוביות חזה עוף + ירק כלשהו + פתיתים בסיר אחד","פתיתים","ירק כלשהו","","","עשרי",""],
+["תבשיל עוף טחון עם ירקות ותפוא בסיר אחד","תפוא","ירקות","","","עשרי",""],
+["רעיונות לסוגי שניצלים","","","1. שניצל קלאסי (קמח, ביצה, חרדל, שום, פפריקה, אבקת מרק עוף, כמון, מלח, פלפל) - אחרי שמשרים בתערובת הביצים טובלים בפירורי לחם עם שומשום. 2. קריספי צ'יקן. 3. שניצל בטמפורה. 4. שניצל מצופה בשמן + תבלינים, קמח + אבקת אפיה וביצה. 5. שניצל בתנור עם פצפוצי אורז. 6. שניצל בתנור מושרה בשמן ותבלינים ואז פירורים. 7. מצופה במיונז, רטבים ותבלינים ואז פירורים. 8. מצופה בביצה ובקמח מצה. 9. לצפות בקמח ותבלינים ולטגן. 10. להשרות בקטשופ ושמן, לצפות בשומשום ופירורים ולאפות","","עשרי",""],
+["רעיונות לתיבולי פרוסות חזה עוף לסטייק (שנצלים במחבת / מיניק / תחתית התנור)","","","1. שמן, מלח, פלפל, מרק עוף, חרדל, שום, פפריקה, כורכום, צ'ילי. 2. קטשופ, שום, שמן ותבלינים. 3. רוטב טריאקי, שום גבישי, אבקת מרק בצל, שמן. 4. כמון, כורכום, תבלין על האש, תבלין לסטייק, פפריקה ושמן. 5. פרוסות בצל דקות, המון חוויאג', שמן ופפריקה","","עשרי",""],
+["קציצות מטוגנות","","","בצל קצוץ דק בסלייסר, קישוא מגורד דק, ביצה, שמן, מלח, פלפל, אבקת מרק בצל, פפריקה, כמון, קורט סוכר, אבקת שום, פירורי לחם לבנים או לחם סחוט, חצי קילו עוף טחון. לקרר את העיסה ואז לכדרר","","עשרי",""],
+["קציצות מבושלות","","","עיסה מעוף טחון (חצי קילו), 1 בצל, 1 קישוא קצוצים דק, 2 ביצים, חצי כוס פירורי לחם (עדיף לבנים), מלח, פלפל, שמן ומעט סוכר. לקרר את העיסה ואז לכדרר. הרוטב: בצל ושום קצוצים ומאודים, מעט קמח, 4 חבילות רסק קטן, מלח, פלפל, סוכר, מעט חומץ ומים (על כל רסק, 2 כוסות מים בערך). מרתיחה, מכניסה את הקציצות, מכסה וכשרותח מנמיכה להבה לשעה בערך, 10 דקות אחרונות מבשלת פתוח","","עשרי",""],
+["קציצות מבושלות בסגנון אחר (עם פלפלים בעיסה, תפוא וקישוא ברוטב)","תפוא","פלפלים וקישוא","לקחת את המתכון מלמעלה ולהוסיף פלפלים קצוצים דק, ולהכניס את הקציצות לתבשיל תפוחי אדמה שמתובל בחוויאג' או קארי - מתקבל תבשיל קציצות מהמם בניחוח אחר","","עשרי",""],
+["רעיונות מחזות עוף שלמים","","","1. לשים בתיבול מזרחי עם שמן, לצלות מכל הכיוונים במיני או בתנור, וכשמתקרר לפרק - קיבלנו חזה עוף מפורק / שווארמה. 2. להכניס לתבשיל של תפוא וירקות ואז כשמבושל לחתוך לחתיכות. 3. חזה עוף בפיצוחים: 3 חזות, 4 שיני שום כתוש, 3 כפות דבש, 2 כפות רוטב סויה, 2 כפות צ'ילי, 3 כפות שמן, מלח ופלפל - טוחנים ויוצקים על החזות, שומרים שליש מהרוטב בצד. ציפוי: כוס וחצי פיצוחים (אגוזי מלך, פיסטוק, דלעת, חמניות) + שומשום שחור ולבן + 2 כפות שמן וכפית סילאן. אחרי שאפינו את החזות (כשעה) יוצקים את הרוטב הנותר + התערובת ואופים עוד 15 דקות. 4. סוג של פסטרמה. 5. להשרות את החזה בשמן ותבלינים ולשים על תבנית עם ירקות ותפודים חתוכים, לאפות מכוסה","","עשרי",""],
+["חריימה מטונה שימורים","","","","","עשרי",""],
+["טשולנט פרווה","","","","","עשרי",""],
+["פסטה מוקרמת בסיר אחד","פסטה","","","","עשרי",""],
+["פלפל ממולא קינואה","קינואה","פלפלים","","","עשרי",""],
+["תבשיל עוף טחון עם ירקות ופתיתים בסיר אחד","פתיתים","ירקות","","","עשרי",""],
+["קציצות טונה קצת אחרת","","","בצל, שום, פלפל אדום, עגבניה (לגרד או לקצוץ חלק בסלייסר), רסק או קטשופ, הריסה, כמון, אבקת מרק עוף, מלח, פלפל, 2 טונה, 2 ביצים, חצי כוס פירורים לבנים","","עשרי",""],
+["מושט ותפוא בתבנית אחת מצופים בפירורי לחם","תפוא","","","","עשרי",""],
+["גולש נקניקיות ותפוחי אדמה","תפוא","","","","עשרי",""],
+["נקניקיות ופסטה אדומה בסיר אחד","פסטה","","","","עשרי",""],
+["אורז, גזר וחזה עוף בסיר אחד","אורז","גזר","לקצוץ הרבה בצל ולגרד הרבה גזר, לאדות עד לריכוך. להוסיף חזה עוף חתוך לקוביות, לערבב עד להלבנת החזות. לבשל אורז, לערבב עם הבצל, הגזר והעוף. לתבל במלח, פלפל שחור, כורכום וקינמון. לבשל שוב על אש נמוכה לבישול מלא. (אפשר לשים פרוסות תפוא עם מעט שמן בתחתית הסיר לפני הבישול האחרון)","","סופר",""],
+["עוף","תפוא","בצל, עגבניה, קישוא, גזר, בטטה, דלעת","לחתוך את הירקות לעיגולים לא עבים מדי. לשים בסיר בצל עם מעט שמן, מעליו עגבניה, קישוא, גזר, בטטה ודלעת או כל ירק שאוהבים, ומעליו את העוף. לתבל בגריל עוף ומלח, לשים קצת שמן מלמעלה ולבשל על אש נמוכה כמה שיותר זמן","","",""],
+];
+
+/* ====== מצב ====== */
+let HEADERS = [], RECIPES = [], selected = new Set(), mode = "and", freezeOnly = false, query = "";
+let pantryBuilt = false;
+const ACCENTS = ["var(--petrol)","var(--pink)","var(--gold)","var(--green)"];
+
+/* ====== איור לכל מתכון לפי התגיות ====== */
+const ICON_BY_TAG = {
+  "דגים":"i-fish","טונה":"i-can","חזה עוף":"i-fillet","עוף טחון":"i-balls",
+  "עוף בחלקים":"i-drum","הודו":"i-drum","בשר בקר":"i-steak",
+  "נקניקיות":"i-steak","ביצים":"i-egg","עדשים":"i-bowl","חומוס":"i-bowl",
+  "אורז":"i-rice","פסטה ונודלס":"i-pasta","פתיתים":"i-rice","קוסקוס":"i-rice",
+  "בורגול":"i-rice","קינואה":"i-rice","תפוחי אדמה":"i-potato","בטטה":"i-potato",
+  "לחם ומאפים":"i-bread","מרק":"i-pot","סלט":"i-leaf","פטריות":"i-mush",
+  "פלפלים":"i-pepper","עגבניות":"i-tomato","גזר":"i-carrot","סיר אחד":"i-pot",
+};
+const ICON_ORDER = ["דגים","טונה","חזה עוף","עוף טחון","עוף בחלקים","הודו","בשר בקר","נקניקיות",
+  "ביצים","עדשים","חומוס","מרק","סלט","אורז","פסטה ונודלס","פתיתים","קוסקוס","בורגול","קינואה",
+  "תפוחי אדמה","בטטה","לחם ומאפים","פטריות","פלפלים","עגבניות","גזר","סיר אחד"];
+const GROUP_ICON = {"חלבון":"i-drum","פחמימה":"i-rice","ירקות":"i-carrot","אופן ההכנה":"i-pot"};
+
+const iconFor = r => ICON_BY_TAG[ICON_ORDER.find(t => r.tags.has(t))] || "i-pot";
+const svgIcon = (id, cls) =>
+  `<svg class="${cls||""}" viewBox="0 0 40 40" fill="#fff" stroke="#15191C" stroke-width="2.4"
+    stroke-linejoin="round" aria-hidden="true"><use href="#${id}"/></svg>`;
+
+/* ====== סיווג חכם של סוג העוף ====== */
+/* חזה / טחון / חלקים. חלבון אחר בשורה תמיד גובר על הסקה מסוג המנה. */
+function chickenTags(raw){
+  const out = [];
+  const hasChicken = /(?:^|[^\u0590-\u05FF])[ובלמהשכ]?(עוף|עופות)(?![\u0590-\u05FF])/.test(raw) || /הודו/.test(raw);
+  const fishy   = /(טונה|בקלה|מושט|דגים|דג|סלמון|פילה|חריימה)/.test(raw);
+  const meaty   = /(בקר|בשר|סטייק|קבב|גולש|נקניק)/.test(raw);
+  const other   = fishy || meaty;
+
+  const breast  = /חז(ה|ות)/.test(raw);
+  const ground  = /(מ?עוף|הודו)\s+טחון/.test(raw) || /טחון\s+(עוף|הודו)/.test(raw);
+  const parts   = /(כנפיים|שוקיים|כרעיים|פרגית|פרגיות|עוף שלם|חלקי העוף|חלקי עוף|נתחי עוף)/.test(raw);
+
+  const isSchnitzel = /(שניצל|שניצלים)/.test(raw);
+  const isStirFry   = /(מוקפץ|מוקפצים|מקפיצים|להקפיץ|הקפצה|קוביות (חזה|עוף))/.test(raw);
+  const isMince     = /(קציצות|קציצה|פשטיד|עראייס|כדורי)/.test(raw);
+
+  if(breast) out.push("חזה עוף");
+  if(ground) out.push("עוף טחון");
+  if(parts)  out.push("עוף בחלקים");
+
+  if(!other){
+    if(isSchnitzel && !out.includes("חזה עוף")) out.push("חזה עוף");
+    if(isStirFry && hasChicken && !out.includes("חזה עוף")) out.push("חזה עוף");
+    if(isMince && !out.includes("עוף טחון")) out.push("עוף טחון");
+  }
+  if(!fishy && hasChicken && /טחון/.test(raw) && !out.includes("עוף טחון")) out.push("עוף טחון");
+  if(hasChicken && !fishy && !out.length) out.push("עוף בחלקים");
+  return out;
+}
+
+/* ====== בניית מתכונים מהשורות ====== */
+function buildRecipes(headers, rows){
+  const freezeIdx = headers.findIndex(h => clean(h).includes("הקפיא"));
+  return rows.map(cells => {
+    const values = headers.map((_,i) => clean(cells[i] || ""));
+    if(values.every(v => !v)) return null;
+    const raw = denoise(clean(values.join(" ")));
+    const tags = new Set();
+    PANTRY.forEach(g => g.items.forEach(([name, aliases]) => {
+      if(aliases.length && aliases.some(a => rx(a).test(raw))) tags.add(name);
+    }));
+    chickenTags(raw).forEach(t => tags.add(t));
+    const title = values.find(v => v) || "ללא שם";
+    const freeze = freezeIdx >= 0 && /כן/.test(values[freezeIdx] || "");
+    return {values, tags, title, freeze, search: values.join(" ")};
+  }).filter(Boolean);
+}
+
+/* ====== סינון ====== */
+function matches(r){
+  if(freezeOnly && !r.freeze) return false;
+  if(query){
+    const q = clean(query).toLowerCase();
+    if(!clean(r.search).toLowerCase().includes(q)) return false;
+  }
+  if(selected.size){
+    const arr = [...selected];
+    if(mode === "and" ? !arr.every(t => r.tags.has(t)) : !arr.some(t => r.tags.has(t))) return false;
+  }
+  return true;
+}
+
+/* ====== המזווה: נבנה פעם אחת, מתעדכן בלי לאבד פתוח/סגור ====== */
+function buildPantry(){
+  document.getElementById("pantry").innerHTML = PANTRY.map((g,i) => {
+    const chips = g.items.map(([name]) =>
+      `<button class="chip" aria-pressed="false" data-tag="${name}">${name}<span class="n">0</span></button>`
+    ).join("");
+    return `<details class="group" data-group="${g.group}" ${i === 0 ? "open" : ""}>
+      <summary>${svgIcon(GROUP_ICON[g.group] || "i-pot")}${g.group}
+        <span class="picked" hidden></span><span class="sign" aria-hidden="true"></span></summary>
+      <div class="chips">${chips}</div>
+    </details>`;
+  }).join("");
+  document.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+    const t = b.dataset.tag;
+    selected.has(t) ? selected.delete(t) : selected.add(t);
+    render();
+  });
+  pantryBuilt = true;
+}
+
+function updatePantry(results){
+  document.querySelectorAll(".chip").forEach(b => {
+    const t = b.dataset.tag;
+    const n = results.filter(r => r.tags.has(t)).length;
+    const on = selected.has(t);
+    b.querySelector(".n").textContent = n;
+    b.setAttribute("aria-pressed", on);
+    b.classList.toggle("empty", n === 0 && !on);
+  });
+  document.querySelectorAll("details.group").forEach(d => {
+    const picked = [...d.querySelectorAll('.chip[aria-pressed="true"]')].length;
+    const badge = d.querySelector(".picked");
+    badge.hidden = picked === 0;
+    badge.textContent = picked;
+  });
+}
+
+function drawActiveTags(){
+  const box = document.getElementById("activetags");
+  const bits = [...selected].map(t => `<button data-tag="${t}">${t}</button>`);
+  if(freezeOnly) bits.push('<button data-tag="__freeze">ניתן להקפיא</button>');
+  box.innerHTML = bits.join("");
+  box.querySelectorAll("button").forEach(b => b.onclick = () => {
+    if(b.dataset.tag === "__freeze"){
+      freezeOnly = false;
+      document.getElementById("freezeBtn").setAttribute("aria-pressed","false");
+    } else selected.delete(b.dataset.tag);
+    render();
+  });
+}
+
+function highlight(text){
+  const safe = text.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  if(!query.trim()) return safe;
+  try{
+    const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    return safe.replace(new RegExp(q,"gi"), m => `<mark>${m}</mark>`);
+  }catch(e){ return safe; }
+}
+
+function drawCards(results){
+  const box = document.getElementById("results");
+  if(!results.length){
+    box.className = "";
+    box.innerHTML = `<div class="empty-state">${svgIcon("i-pot")}
+      <b>הסיר ריק בשילוב הזה</b>
+      נסי להוריד סימון אחד, או לעבור ל"לפחות אחד" כדי לראות מתכונים שמכילים חלק מהחומרים.</div>`;
+    return;
+  }
+  box.className = "cards";
+  box.innerHTML = results.map((r,i) => {
+    const hits = [...r.tags].filter(t => selected.has(t));
+    const rows = HEADERS.map((h,idx) => {
+      const v = r.values[idx];
+      return `<div class="pair"><dt>${h || "הערה"}</dt>
+        <dd class="${v ? "" : "none"}">${v ? highlight(v) : "—"}</dd></div>`;
+    }).join("");
+    return `<article class="recipe" style="--c:${ACCENTS[i % ACCENTS.length]}">
+      <div class="badge">${svgIcon(iconFor(r))}</div>
+      <h3>${highlight(r.title)}${r.freeze ? '<span class="freeze-flag">מתאים להקפאה</span>' : ""}</h3>
+      ${hits.length ? `<div class="hits">${hits.map(h => `<span>${h}</span>`).join("")}</div>` : ""}
+      <dl class="row">${rows}</dl>
+    </article>`;
+  }).join("");
+}
+
+function render(){
+  if(!pantryBuilt) buildPantry();
+  const results = RECIPES.filter(matches);
+  const n = results.length, total = RECIPES.length;
+  document.getElementById("count").textContent = n;
+  document.getElementById("countMain").textContent = n;
+  document.getElementById("ofTotal").textContent = `מתוך ${total} מתכונים`;
+  document.getElementById("mobileCount").textContent = `${n} מתוך ${total}`;
+  const picked = selected.size + (freezeOnly ? 1 : 0);
+  document.getElementById("drawerCount").textContent = picked ? `(${picked})` : "";
+  updatePantry(results);
+  drawActiveTags();
+  drawCards(results);
+}
+
+/* ====== טעינה ====== */
+function setStatus(text, kind){
+  document.getElementById("statusText").textContent = text;
+  document.getElementById("dot").className = "dot" + (kind ? " " + kind : "");
+}
+
+async function load(){
+  setStatus("טוען מהגיליון…");
+  try{
+    const res = await fetch(CSV_URL());
+    if(!res.ok) throw new Error(res.status);
+    const rows = parseCSV(await res.text()).filter(r => r.some(c => c.trim()));
+    let hi = rows.findIndex(r => r.some(c => clean(c) === "חלבון"));
+    if(hi === -1) hi = 0;
+    HEADERS = rows[hi].map((h,i) => clean(h) || (i === 0 ? "מתכון" : "הערה"));
+    RECIPES = buildRecipes(HEADERS, rows.slice(hi + 1));
+    const t = new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+    setStatus(`מחובר לגיליון · עודכן ${t}`);
+  }catch(e){
+    HEADERS = FALLBACK_HEADERS;
+    RECIPES = buildRecipes(HEADERS, FALLBACK_ROWS);
+    setStatus("הקריאה החיה נחסמה — מוצג עותק מקומי. בדקי שהגיליון משותף לצפייה או מפורסם כ-CSV.", "err");
+  }
+  render();
+}
+
+/* ====== אירועים ====== */
+const drawer = on => document.body.classList.toggle("drawer", on);
+document.getElementById("openDrawer").onclick = () => drawer(true);
+document.getElementById("closeDrawer").onclick = () => drawer(false);
+document.getElementById("scrim").onclick = () => drawer(false);
+
+document.getElementById("q").addEventListener("input", e => { query = e.target.value; render(); });
+document.getElementById("modeBtn").onclick = function(){
+  mode = mode === "and" ? "or" : "and";
+  this.setAttribute("aria-pressed", mode === "and");
+  this.textContent = mode === "and" ? "כל הסימונים" : "לפחות אחד";
+  render();
+};
+document.getElementById("freezeBtn").onclick = function(){
+  freezeOnly = !freezeOnly;
+  this.setAttribute("aria-pressed", freezeOnly);
+  render();
+};
+document.getElementById("reset").onclick = () => {
+  selected.clear(); query = ""; freezeOnly = false; mode = "and";
+  document.getElementById("q").value = "";
+  document.getElementById("freezeBtn").setAttribute("aria-pressed","false");
+  document.getElementById("modeBtn").setAttribute("aria-pressed","true");
+  document.getElementById("modeBtn").textContent = "כל הסימונים";
+  render();
+};
+document.getElementById("refresh").onclick = load;
+document.getElementById("openSheet").onclick = () => window.open(SHEET_URL,"_blank");
+
+function rollDice(){
+  const results = RECIPES.filter(matches);
+  if(!results.length) return;
+  drawCards([results[Math.floor(Math.random() * results.length)]]);
+  drawer(false);
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+}
+document.getElementById("dice").onclick = rollDice;
+document.getElementById("diceM").onclick = rollDice;
+
+load();
+</script>
+</body>
+</html>
