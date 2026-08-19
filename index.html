@@ -224,6 +224,7 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
 <g id="i-mush"><path d="M4 21a16 13 0 0 1 32 0z"/><path d="M15 21h10v9a5 5 0 0 1-10 0z"/><circle cx="14" cy="15" r="2" fill="#15191C" stroke="none"/><circle cx="25" cy="16" r="1.6" fill="#15191C" stroke="none"/></g>
 <g id="i-pepper"><path d="M9 20c0-6 5-9 11-9s11 3 11 9c0 9-5 16-11 16S9 29 9 20z"/><path d="M20 11V6M20 6h5" fill="none" stroke-width="2" stroke-linecap="round"/></g>
 <g id="i-tomato"><circle cx="20" cy="23" r="13"/><path d="M20 10V5M20 10l6-3M20 10l-6-3" fill="none" stroke-width="2" stroke-linecap="round"/></g>
+<g id="i-pen"><rect x="17" y="2" width="6" height="30" rx="3" transform="rotate(40 20 20)"/><path d="M13 27 5 35l2-10z" fill="#15191C" stroke="none"/></g>
 </defs>
 </svg>
 
@@ -485,6 +486,7 @@ const FALLBACK_ROWS = [
 /* ====== מצב ====== */
 let HEADERS = [], RECIPES = [], selected = new Set(), mode = "and", freezeOnly = false, query = "";
 let pantryBuilt = false;
+let AUTHOR_GROUP = null;
 const ACCENTS = ["var(--petrol)","var(--pink)","var(--gold)","var(--green)"];
 
 /* ====== איור לכל מתכון לפי התגיות ====== */
@@ -500,7 +502,7 @@ const ICON_BY_TAG = {
 const ICON_ORDER = ["דגים","טונה","חזה עוף","עוף טחון","עוף בחלקים","הודו","בשר בקר","נקניקיות",
   "ביצים","עדשים","חומוס","מרק","סלט","אורז","פסטה ונודלס","פתיתים","קוסקוס","בורגול","קינואה",
   "תפוחי אדמה","בטטה","לחם ומאפים","פטריות","פלפלים","עגבניות","גזר","סיר אחד"];
-const GROUP_ICON = {"חלבון":"i-drum","פחמימה":"i-rice","ירקות":"i-carrot","אופן ההכנה":"i-pot"};
+const GROUP_ICON = {"חלבון":"i-drum","פחמימה":"i-rice","ירקות":"i-carrot","אופן ההכנה":"i-pot","כותבת":"i-pen"};
 
 const iconFor = r => ICON_BY_TAG[ICON_ORDER.find(t => r.tags.has(t))] || "i-pot";
 const svgIcon = (id, cls) =>
@@ -541,6 +543,7 @@ function chickenTags(raw){
 /* ====== בניית מתכונים מהשורות ====== */
 function buildRecipes(headers, rows){
   const freezeIdx = headers.findIndex(h => clean(h).includes("הקפיא"));
+  const authorIdx = headers.findIndex(h => clean(h).includes("כותבת"));
   return rows.map(cells => {
     const values = headers.map((_,i) => clean(cells[i] || ""));
     if(values.every(v => !v)) return null;
@@ -550,9 +553,11 @@ function buildRecipes(headers, rows){
       if(aliases.length && aliases.some(a => rx(a).test(raw))) tags.add(name);
     }));
     chickenTags(raw).forEach(t => tags.add(t));
+    const author = authorIdx >= 0 ? values[authorIdx] : "";
+    if(author) tags.add(author);
     const title = values.find(v => v) || "ללא שם";
     const freeze = freezeIdx >= 0 && /כן/.test(values[freezeIdx] || "");
-    return {values, tags, title, freeze, search: values.join(" ")};
+    return {values, tags, title, freeze, author, search: values.join(" ")};
   }).filter(Boolean);
 }
 
@@ -571,8 +576,15 @@ function matches(r){
 }
 
 /* ====== המזווה: נבנה פעם אחת, מתעדכן בלי לאבד פתוח/סגור ====== */
+function buildAuthorGroup(){
+  const names = [...new Set(RECIPES.map(r => r.author).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b, "he"));
+  AUTHOR_GROUP = names.length ? {group:"כותבת", items: names.map(n => [n, []])} : null;
+}
+
 function buildPantry(){
-  document.getElementById("pantry").innerHTML = PANTRY.map((g,i) => {
+  const groups = AUTHOR_GROUP ? [...PANTRY, AUTHOR_GROUP] : PANTRY;
+  document.getElementById("pantry").innerHTML = groups.map((g,i) => {
     const chips = g.items.map(([name]) =>
       `<button class="chip" aria-pressed="false" data-tag="${name}">${name}<span class="n">0</span></button>`
     ).join("");
@@ -695,6 +707,7 @@ async function load(){
     RECIPES = buildRecipes(HEADERS, FALLBACK_ROWS);
     setStatus("הקריאה החיה נחסמה — מוצג עותק מקומי. בדקי שהגיליון משותף לצפייה או מפורסם כ-CSV.", "err");
   }
+  buildAuthorGroup();
   render();
 }
 
