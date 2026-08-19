@@ -644,6 +644,7 @@ function drawCards(results){
     const hits = [...r.tags].filter(t => selected.has(t));
     const rows = HEADERS.map((h,idx) => {
       const v = r.values[idx];
+      if(!v && h === "הערה") return "";
       return `<div class="pair"><dt>${h || "הערה"}</dt>
         <dd class="${v ? "" : "none"}">${v ? highlight(v) : "—"}</dd></div>`;
     }).join("");
