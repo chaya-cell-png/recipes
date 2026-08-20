@@ -185,6 +185,12 @@ details.group summary .sign::after{content:"+"}
   display:flex;align-items:center;justify-content:center;transform:rotate(6deg);
 }
 .recipe .badge svg{width:30px;height:30px}
+.recipe .favstar{
+  position:absolute;top:-14px;inset-inline-start:16px;width:34px;height:34px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--ink);font-size:17px;line-height:1;
+  display:flex;align-items:center;justify-content:center;color:var(--gold);
+}
+.recipe .favstar[aria-pressed="true"]{background:var(--gold);color:#fff}
 .recipe h3{font-family:'Suez One',serif;font-size:21px;line-height:1.3;margin:4px 0 10px;padding-inline-end:62px;min-height:34px}
 .hits{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px}
 .hits span{font-family:'Heebo';font-size:11.5px;font-weight:500;background:var(--paper);border:1.5px solid var(--ink);border-radius:999px;padding:2px 9px}
@@ -194,6 +200,7 @@ dl.row dd{margin:0;padding-bottom:6px;border-bottom:1.5px dotted var(--line);whi
 dl.row dd.none{color:#C3BCAC}
 .pair{display:contents}
 mark{background:var(--gold);color:var(--ink);border-radius:3px;padding:0 2px}
+dl.row dd a{color:var(--petrol);text-decoration-thickness:1.5px}
 .freeze-flag{display:inline-block;font-family:'Heebo';font-size:11px;font-weight:700;background:var(--petrol);color:var(--paper);border-radius:999px;padding:2px 9px;margin-inline-start:6px}
 .empty-state{text-align:center;padding:56px 22px;border:3px dashed var(--ink);border-radius:18px;color:var(--muted)}
 .empty-state b{display:block;font-family:'Suez One';font-size:23px;color:var(--ink);margin-bottom:8px}
@@ -282,6 +289,9 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
     <div class="sidebtns">
       <button class="btn wide" id="modeBtn" aria-pressed="true">כל הסימונים</button>
       <button class="btn wide" id="freezeBtn" aria-pressed="false">ניתן להקפיא</button>
+    </div>
+    <div class="sidebtns">
+      <button class="btn wide" id="favBtn" aria-pressed="false">⭐ מועדפים</button>
     </div>
     <div class="sidebtns">
       <button class="btn dice wide" id="dice">הגרילי מנה</button>
@@ -488,6 +498,18 @@ const FALLBACK_ROWS = [
 let HEADERS = [], RECIPES = [], selected = new Set(), mode = "and", freezeOnly = false, query = "";
 let pantryBuilt = false;
 let AUTHOR_GROUP = null;
+let favoritesOnly = false;
+let favorites;
+try{ favorites = new Set(JSON.parse(localStorage.getItem("recipeFavorites") || "[]")); }
+catch(e){ favorites = new Set(); }
+function saveFavorites(){
+  try{ localStorage.setItem("recipeFavorites", JSON.stringify([...favorites])); }catch(e){}
+}
+function hashText(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++) h = (h*31 + s.charCodeAt(i)) | 0;
+  return String(h);
+}
 const ACCENTS = ["var(--petrol)","var(--pink)","var(--gold)","var(--green)"];
 
 /* ====== איור לכל מתכון לפי התגיות ====== */
@@ -558,13 +580,15 @@ function buildRecipes(headers, rows){
     if(author) tags.add(author);
     const title = values.find(v => v) || "ללא שם";
     const freeze = freezeIdx >= 0 && /כן/.test(values[freezeIdx] || "");
-    return {values, tags, title, freeze, author, search: values.join(" ")};
+    const id = hashText(values.join("|"));
+    return {values, tags, title, freeze, author, id, search: values.join(" ")};
   }).filter(Boolean);
 }
 
 /* ====== סינון ====== */
 function matches(r){
   if(freezeOnly && !r.freeze) return false;
+  if(favoritesOnly && !favorites.has(r.id)) return false;
   if(query){
     const q = clean(query).toLowerCase();
     if(!clean(r.search).toLowerCase().includes(q)) return false;
@@ -624,22 +648,35 @@ function drawActiveTags(){
   const box = document.getElementById("activetags");
   const bits = [...selected].map(t => `<button data-tag="${t}">${t}</button>`);
   if(freezeOnly) bits.push('<button data-tag="__freeze">ניתן להקפיא</button>');
+  if(favoritesOnly) bits.push('<button data-tag="__fav">⭐ מועדפים</button>');
   box.innerHTML = bits.join("");
   box.querySelectorAll("button").forEach(b => b.onclick = () => {
     if(b.dataset.tag === "__freeze"){
       freezeOnly = false;
       document.getElementById("freezeBtn").setAttribute("aria-pressed","false");
+    } else if(b.dataset.tag === "__fav"){
+      favoritesOnly = false;
+      document.getElementById("favBtn").setAttribute("aria-pressed","false");
     } else selected.delete(b.dataset.tag);
     render();
   });
 }
 
+function linkify(safe){
+  return safe.replace(/(https?:\/\/[^\s<]+)/g, url => {
+    let trail = "", clean = url;
+    while(/[.,;:!?)\]]$/.test(clean)){ trail = clean.slice(-1) + trail; clean = clean.slice(0,-1); }
+    return `<a href="${clean}" target="_blank" rel="noopener noreferrer">${clean}</a>${trail}`;
+  });
+}
+
 function highlight(text){
-  const safe = text.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const safe = linkify(text.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])));
   if(!query.trim()) return safe;
   try{
     const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-    return safe.replace(new RegExp(q,"gi"), m => `<mark>${m}</mark>`);
+    const re = new RegExp(q,"gi");
+    return safe.split(/(<[^>]+>)/g).map(part => part.startsWith("<") ? part : part.replace(re, m => `<mark>${m}</mark>`)).join("");
   }catch(e){ return safe; }
 }
 
@@ -661,13 +698,26 @@ function drawCards(results){
       return `<div class="pair"><dt>${h || "הערה"}</dt>
         <dd class="${v ? "" : "none"}">${v ? highlight(v) : "—"}</dd></div>`;
     }).join("");
+    const fav = favorites.has(r.id);
     return `<article class="recipe" style="--c:${ACCENTS[i % ACCENTS.length]}">
+      <button class="favstar" data-id="${r.id}" aria-pressed="${fav}" aria-label="סימון כמועדף">${fav ? "★" : "☆"}</button>
       <div class="badge">${svgIcon(iconFor(r))}</div>
       <h3>${highlight(r.title)}${r.freeze ? '<span class="freeze-flag">מתאים להקפאה</span>' : ""}</h3>
       ${hits.length ? `<div class="hits">${hits.map(h => `<span>${h}</span>`).join("")}</div>` : ""}
       <dl class="row">${rows}</dl>
     </article>`;
   }).join("");
+  box.querySelectorAll(".favstar").forEach(b => b.onclick = () => {
+    const id = b.dataset.id;
+    favorites.has(id) ? favorites.delete(id) : favorites.add(id);
+    saveFavorites();
+    if(favoritesOnly) render();
+    else{
+      const on = favorites.has(id);
+      b.textContent = on ? "★" : "☆";
+      b.setAttribute("aria-pressed", on);
+    }
+  });
 }
 
 function render(){
@@ -678,7 +728,7 @@ function render(){
   document.getElementById("countMain").textContent = n;
   document.getElementById("ofTotal").textContent = `מתוך ${total} מתכונים`;
   document.getElementById("mobileCount").textContent = `${n} מתוך ${total}`;
-  const picked = selected.size + (freezeOnly ? 1 : 0);
+  const picked = selected.size + (freezeOnly ? 1 : 0) + (favoritesOnly ? 1 : 0);
   document.getElementById("drawerCount").textContent = picked ? `(${picked})` : "";
   updatePantry(results);
   drawActiveTags();
@@ -730,10 +780,16 @@ document.getElementById("freezeBtn").onclick = function(){
   this.setAttribute("aria-pressed", freezeOnly);
   render();
 };
+document.getElementById("favBtn").onclick = function(){
+  favoritesOnly = !favoritesOnly;
+  this.setAttribute("aria-pressed", favoritesOnly);
+  render();
+};
 document.getElementById("reset").onclick = () => {
-  selected.clear(); query = ""; freezeOnly = false; mode = "and";
+  selected.clear(); query = ""; freezeOnly = false; favoritesOnly = false; mode = "and";
   document.getElementById("q").value = "";
   document.getElementById("freezeBtn").setAttribute("aria-pressed","false");
+  document.getElementById("favBtn").setAttribute("aria-pressed","false");
   document.getElementById("modeBtn").setAttribute("aria-pressed","true");
   document.getElementById("modeBtn").textContent = "כל הסימונים";
   render();
