@@ -72,6 +72,27 @@ h1 em{font-style:normal;color:var(--gold);display:block}
 .sticker b{font-family:'Suez One';font-size:36px;line-height:.9;color:var(--paper)}
 .sticker span{font-family:'Heebo';font-size:10.5px;font-weight:700;letter-spacing:.08em;color:#FFE9D6}
 
+/* ============ TABS ============ */
+.tabs{display:flex;gap:12px;margin-top:24px}
+.tab{
+  flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:9px;
+  border:2.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:16px;
+  padding:10px 12px;font-family:'Suez One',serif;font-size:19px;line-height:1.15;
+  box-shadow:5px 5px 0 var(--ink);transition:transform .1s,box-shadow .1s;
+}
+.tab svg{width:30px;height:30px;flex:none}
+.tab .n{font-family:'Heebo';font-size:11px;font-weight:700;background:rgba(21,25,28,.09);border-radius:999px;padding:1px 7px;min-width:22px;text-align:center}
+.tab:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.tab[aria-selected="true"]{background:var(--c);color:#fff;transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.tab[aria-selected="true"] .n{background:rgba(255,255,255,.3);color:#fff}
+.tab[data-key="holidays"][aria-selected="true"]{color:var(--ink)}
+.tab[data-key="holidays"][aria-selected="true"] .n{background:rgba(21,25,28,.14);color:var(--ink)}
+@media(max-width:600px){
+  .tabs{gap:8px}
+  .tab{font-size:15px;padding:9px 6px;flex-direction:column;gap:4px;box-shadow:4px 4px 0 var(--ink)}
+  .tab svg{width:24px;height:24px}
+}
+
 /* ============ LAYOUT ============ */
 .layout{display:grid;gap:26px;margin-top:26px;align-items:start}
 @media(min-width:920px){.layout{grid-template-columns:296px 1fr}}
@@ -254,6 +275,14 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
 <g id="i-mush"><path d="M4 21a16 13 0 0 1 32 0z"/><path d="M15 21h10v9a5 5 0 0 1-10 0z"/><circle cx="14" cy="15" r="2" fill="#15191C" stroke="none"/><circle cx="25" cy="16" r="1.6" fill="#15191C" stroke="none"/></g>
 <g id="i-pepper"><path d="M9 20c0-6 5-9 11-9s11 3 11 9c0 9-5 16-11 16S9 29 9 20z"/><path d="M20 11V6M20 6h5" fill="none" stroke-width="2" stroke-linecap="round"/></g>
 <g id="i-tomato"><circle cx="20" cy="23" r="13"/><path d="M20 10V5M20 10l6-3M20 10l-6-3" fill="none" stroke-width="2" stroke-linecap="round"/></g>
+<g id="i-cake"><path d="M6 21h28v14H6z"/><path d="M6 27c4 3 7-3 10 0s7 3 10 0 6-3 8 0" fill="none" stroke-width="1.6"/><path d="M20 21v-7" fill="none" stroke-width="2"/><path d="M20 5c2.5 2.5 2.5 5 0 7-2.5-2-2.5-4.5 0-7z"/></g>
+<g id="i-cookie"><circle cx="20" cy="20" r="15"/><circle cx="14" cy="15" r="2" fill="#15191C" stroke="none"/><circle cx="24" cy="12" r="1.6" fill="#15191C" stroke="none"/><circle cx="26" cy="23" r="2" fill="#15191C" stroke="none"/><circle cx="15" cy="26" r="1.6" fill="#15191C" stroke="none"/><circle cx="20" cy="20" r="1.3" fill="#15191C" stroke="none"/></g>
+<g id="i-cup"><path d="M6 15h22v9a9 9 0 0 1-9 9h-4a9 9 0 0 1-9-9z"/><path d="M28 18h3a4 4 0 0 1 0 8h-3" fill="none"/><path d="M13 10c-2-2 2-3 0-5M20 10c-2-2 2-3 0-5" fill="none" stroke-width="1.8" stroke-linecap="round"/></g>
+<g id="i-cheese"><path d="M4 31V20L29 9l7 6v16z"/><path d="M4 20h32" fill="none" stroke-width="1.6"/><circle cx="12" cy="26" r="2.2"/><circle cx="25" cy="25" r="1.8"/></g>
+<g id="i-berry"><path d="M20 36C9 30 6 21 9 16c3-4 19-4 22 0 3 5 0 14-11 20z"/><path d="M12 13l8-7 8 7-8 3z"/><circle cx="15" cy="22" r="1.2" fill="#15191C" stroke="none"/><circle cx="24" cy="21" r="1.2" fill="#15191C" stroke="none"/><circle cx="20" cy="28" r="1.2" fill="#15191C" stroke="none"/></g>
+<g id="i-pomegranate"><circle cx="20" cy="23" r="13"/><path d="M14 11l2-6 4 4 4-4 2 6" fill="none" stroke-width="2" stroke-linejoin="round"/></g>
+<g id="i-candle"><rect x="14" y="16" width="12" height="20" rx="2"/><path d="M20 3c3.5 3.5 3.5 7 0 10-3.5-3-3.5-6.5 0-10z"/></g>
+<g id="i-cloche"><path d="M5 29a15 15 0 0 1 30 0z"/><rect x="2" y="29" width="36" height="5" rx="2.5"/><circle cx="20" cy="11" r="2.4"/></g>
 <g id="i-pen"><rect x="17" y="2" width="6" height="30" rx="3" transform="rotate(40 20 20)"/><path d="M13 27 5 35l2-10z" fill="#15191C" stroke="none"/></g>
 </defs>
 </svg>
@@ -264,8 +293,8 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
   <div class="hero-grid">
     <div>
       <p class="eyebrow">מזווה המתכונים · מתעדכן מהגיליון</p>
-      <h1>מה מבשלים<em>היום?</em></h1>
-      <p class="lede">סמני מה יש במקרר, וקבלי רק את המתכונים שמתאימים — עם השורה המלאה מהגיליון, בדיוק כמו שכתבתן אותה.</p>
+      <h1 id="heroTitle">מה מבשלים<em>היום?</em></h1>
+      <p class="lede" id="heroLede">סמני מה יש במקרר, וקבלי רק את המתכונים שמתאימים — עם השורה המלאה מהגיליון, בדיוק כמו שכתבתן אותה.</p>
       <div class="status">
         <span><span class="dot" id="dot"></span><span id="statusText">טוען מהגיליון…</span></span>
         <button class="ghost" id="refresh">רענון</button>
@@ -291,17 +320,19 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
   </div>
 </header>
 
+<nav class="tabs" id="tabs" role="tablist" aria-label="סוג המתכונים"></nav>
+
 <div class="mobilebar">
   <button class="btn" id="openDrawer">סינון <span id="drawerCount"></span></button>
   <span class="grow" id="mobileCount"></span>
-  <button class="btn dice" id="diceM">הגרילי מנה</button>
+  <button class="btn dice" id="diceM"><span class="diceLabel">הגרילי מנה</span></button>
 </div>
 
 <div class="layout">
   <aside class="filters" id="filters">
     <h2>
       <svg viewBox="0 0 40 40" fill="#fff" stroke="#15191C" stroke-width="2.4" stroke-linejoin="round"><use href="#i-pot"/></svg>
-      המזווה
+      <span id="pantryTitle">המזווה</span>
       <button class="closeDrawer" id="closeDrawer" aria-label="סגירת הסינון">✕</button>
     </h2>
     <div class="search">
@@ -316,7 +347,7 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
       <button class="btn wide" id="favBtn" aria-pressed="false">⭐ מועדפים</button>
     </div>
     <div class="sidebtns">
-      <button class="btn dice wide" id="dice">הגרילי מנה</button>
+      <button class="btn dice wide" id="dice"><span class="diceLabel">הגרילי מנה</span></button>
       <button class="reset" id="reset">ניקוי</button>
     </div>
     <div id="pantry"></div>
@@ -343,9 +374,8 @@ footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-fam
 <script>
 /* ====== מקור הנתונים ====== */
 const SHEET_ID = "1YUXcqwtndsEqrfu7kVLLtfn5cCLA6pJnDOUgoezcWlk";
-const GID = "0";
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=${GID}`;
-const CSV_URL = () => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&cachebust=${Date.now()}`;
+const SHEET_URL = gid => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=${gid || 0}`;
+const CSV_URL = src => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&${src}&cachebust=${Date.now()}`;
 
 /* ====== מזווה: חומרי גלם + מילים נרדפות ====== */
 const PANTRY = [
@@ -403,7 +433,62 @@ const PANTRY = [
   ]},
 ];
 
+/* ====== מזווה מתוקים ====== */
+const SWEETS_PANTRY = [
+  {group:"סוג", items:[
+    ["עוגות",["עוגה","עוגת","עוגות","טורט"]],
+    ["עוגיות",["עוגיות","עוגייה","עוגיה"]],
+    ["קינוחים",["קינוח","קינוחים","מוס","כוסות אישיות"]],
+    ["מאפי שמרים",["שמרים","בבקה","רוגלך","רוגלעך"]],
+    ["חטיפים וכדורים",["כדורי","כדורים","חטיף","חטיפים"]],
+  ]},
+  {group:"טעם", items:[
+    ["שוקולד",["שוקולד","קקאו","שוקוציפס","גנאש"]],
+    ["קפה",["קפה"]],
+    ["גבינה",["גבינה","גבינת"]],
+    ["חלבה",["חלבה"]],
+    ["ביסקוויטים",["ביסקוויט","ביסקוויטים","ביסקויטים","בסקויט","בסקויטים"]],
+    ["פירות",["תות","תותים","תפוח","תפוחים","בננה","בננות","לימון","פירות"]],
+    ["אגוזים ובוטנים",["אגוזים","אגוזי","שקדים","פקאן","בוטנים","קרוקנט"]],
+  ]},
+  {group:"חלבי / פרווה", items:[["חלבי",[]],["פרווה",[]]]},
+  {group:"אופי העוגה", items:[
+    ["תבנית ענקית",["תבנית תנור","תבנית ענק","תבנית ענקית","תבנית גדולה"]],
+    ["בשכבות",["שכבות","שכבה"]],
+    ["בלי אפייה",["בלי אפיה","ללא אפיה","בלי אפייה","ללא אפייה","בלי תנור"]],
+    ["קל ומהיר",["עצלנים","פשוט","פשוטה","קל","קלה","מהיר","מהירה"]],
+  ]},
+];
+
+/* ====== מזווה חגים ואירועים ====== */
+const HOLIDAY_PANTRY = [
+  {group:"חג / אירוע", items:[
+    ["שבת",["שבת","ליל שבת","סעודה שלישית"]],
+    ["ראש השנה",["ראש השנה","רהש","ראהש"]],
+    ["יום כיפור",["כיפור","יוהכ","מפסקת"]],
+    ["סוכות",["סוכות","סוכה"]],
+    ["חנוכה",["חנוכה","לביבות","סופגניות"]],
+    ["ט״ו בשבט",["בשבט"]],
+    ["פורים",["פורים","משלוח מנות"]],
+    ["פסח",["פסח","כשלפ","ליל הסדר","מצה","מצות"]],
+    ["שבועות",["שבועות"]],
+    ["שמחות ואירועים",["אירוע","אירועים","בר מצווה","בר מצוה","בת מצווה","שבע ברכות","ברית","קידוש","חתונה","שמחה"]],
+  ]},
+  {group:"סוג המנה", items:[
+    ["פתיחה",["פתיחה","מנה ראשונה","ראשונה"]],
+    ["עיקרית",["עיקרית","עיקרי","מנה עיקרית"]],
+    ["תוספות",["תוספת","תוספות"]],
+    ["סלטים",["סלט","סלטים"]],
+    ["מרקים",["מרק","מרקים"]],
+    ["קינוחים",["קינוח","קינוחים"]],
+  ]},
+  PANTRY[0],
+];
+
 /* ====== עזרי טקסט ====== */
+// לתצוגה: שומר ירידות שורה וגרשיים כמו שנכתבו בגיליון
+const tidy = s => (s||"").replace(/\r/g,"").replace(/\\+/g," / ").replace(/[ \t\u00A0]+/g," ")
+  .replace(/ *\n */g,"\n").replace(/\n{3,}/g,"\n\n").trim();
 const clean = s => (s||"").replace(/[\u0591-\u05C7]/g,"").replace(/["'`׳״]/g,"").replace(/\\+/g," / ").replace(/\s+/g," ").trim();
 // מסירים ביטויי תיבול שיוצרים התאמות שווא (אבקת מרק עוף, גריל עוף וכו')
 const denoise = t => t
@@ -516,6 +601,39 @@ const FALLBACK_ROWS = [
 ["עוף","תפוא","בצל, עגבניה, קישוא, גזר, בטטה, דלעת","לחתוך את הירקות לעיגולים לא עבים מדי. לשים בסיר בצל עם מעט שמן, מעליו עגבניה, קישוא, גזר, בטטה ודלעת או כל ירק שאוהבים, ומעליו את העוף. לתבל בגריל עוף ומלח, לשים קצת שמן מלמעלה ולבשל על אש נמוכה כמה שיותר זמן","","",""],
 ];
 
+/* ====== אוספים: לשונית לכל גיליון ====== */
+const COLLECTIONS = {
+  dinner:{
+    label:"ארוחות ערב", icon:"i-pot", color:"var(--petrol)", gid:"0",
+    sources:["gid=0"], marker:"חלבון", pantry:PANTRY, chicken:true, fallback:true,
+    title:'מה מבשלים<em>היום?</em>', pageTitle:"מה מבשלים היום?",
+    lede:"סמני מה יש במקרר, וקבלי רק את המתכונים שמתאימים — עם השורה המלאה מהגיליון, בדיוק כמו שכתבתן אותה.",
+    pantryTitle:"המזווה", dice:"הגרילי מנה", fallbackIcon:"i-pot",
+  },
+  sweets:{
+    label:"מתוקים", icon:"i-cake", color:"var(--pink)", gid:"2095150202",
+    sources:["gid=2095150202","sheet="+encodeURIComponent("מתוקים")], marker:"שם המתכון", pantry:SWEETS_PANTRY,
+    title:'מה אופים<em>היום?</em>', pageTitle:"מה אופים היום?",
+    lede:"עוגות, עוגיות וקינוחים מהגיליון — סמני טעם או סוג, וקבלי את המתכון המלא עם כל החומרים, בדיוק כמו שנכתב.",
+    pantryTitle:"המזווה המתוק", dice:"הגרילי עוגה", fallbackIcon:"i-cake",
+    icons:{"עוגיות":"i-cookie","גבינה":"i-cheese","פירות":"i-berry","קפה":"i-cup","שוקולד":"i-cake"},
+    iconOrder:["עוגיות","גבינה","פירות","קפה"],
+  },
+  holidays:{
+    label:"חגים ואירועים", icon:"i-cloche", color:"var(--gold)", gid:"",
+    // שם הלשונית בגיליון חייב להיות מדויק (כולל רווחים). שם שגוי מחזיר את ארוחות הערב ונדחה.
+    sources:["חגים ואירועים","חגים ואירועים ","ארוחות מיוחדות לחגים ואירועים ","ארוחות מיוחדות לחגים ואירועים","חגים"].map(n => "sheet=" + encodeURIComponent(n)),
+    marker:"", pantry:HOLIDAY_PANTRY, chicken:true,
+    title:'מה מגישים<em>בחג?</em>', pageTitle:"מה מגישים בחג?",
+    lede:"מנות לחגים, לשבתות ולאירועים — סמני חג וסוג מנה, וקבלי את המתכון המלא מהגיליון.",
+    pantryTitle:"מזווה החגים", dice:"הגרילי מנה לחג", fallbackIcon:"i-cloche",
+    icons:{"ראש השנה":"i-pomegranate","חנוכה":"i-candle","שבת":"i-candle","דגים":"i-fish","בשר בקר":"i-steak","חזה עוף":"i-fillet","עוף טחון":"i-balls","עוף בחלקים":"i-drum","הודו":"i-drum","קינוחים":"i-cake","מרקים":"i-pot","סלטים":"i-leaf"},
+    iconOrder:["ראש השנה","חנוכה","קינוחים","מרקים","סלטים","דגים","בשר בקר","חזה עוף","עוף טחון","עוף בחלקים","הודו","שבת"],
+  },
+};
+const DATA = {};   // key -> {headers, recipes, ok, empty, status:{text,kind}}
+let current = "dinner";
+
 /* ====== מצב ====== */
 let HEADERS = [], RECIPES = [], selected = new Set(), mode = "and", freezeOnly = false, query = "";
 let pantryBuilt = false;
@@ -547,9 +665,15 @@ const ICON_BY_TAG = {
 const ICON_ORDER = ["דגים","טונה","חזה עוף","עוף טחון","עוף בחלקים","הודו","בשר בקר","נקניקיות",
   "ביצים","עדשים","חומוס","מרק","סלט","אורז","פסטה ונודלס","פתיתים","קוסקוס","בורגול","קינואה",
   "תפוחי אדמה","בטטה","לחם ומאפים","פטריות","פלפלים","עגבניות","גזר","סיר אחד"];
-const GROUP_ICON = {"חלבון":"i-drum","פחמימה":"i-rice","ירקות":"i-carrot","אופן ההכנה":"i-pot","כותבת":"i-pen"};
+const GROUP_ICON = {"חלבון":"i-drum","פחמימה":"i-rice","ירקות":"i-carrot","אופן ההכנה":"i-pot","כותבת":"i-pen",
+  "סוג":"i-cake","טעם":"i-cookie","חלבי / פרווה":"i-cup","אופי העוגה":"i-cake",
+  "חג / אירוע":"i-pomegranate","סוג המנה":"i-cloche"};
 
-const iconFor = r => ICON_BY_TAG[ICON_ORDER.find(t => r.tags.has(t))] || "i-pot";
+const iconFor = r => {
+  const col = COLLECTIONS[current];
+  if(!col.icons) return ICON_BY_TAG[ICON_ORDER.find(t => r.tags.has(t))] || "i-pot";
+  return col.icons[col.iconOrder.find(t => r.tags.has(t))] || col.fallbackIcon;
+};
 const svgIcon = (id, cls) =>
   `<svg class="${cls||""}" viewBox="0 0 40 40" fill="#fff" stroke="#15191C" stroke-width="2.4"
     stroke-linejoin="round" aria-hidden="true"><use href="#${id}"/></svg>`;
@@ -585,24 +709,37 @@ function chickenTags(raw){
   return out;
 }
 
+/* ====== חלבי / פרווה במתוקים (ניחוש מהטקסט; מילה מפורשת בגיליון גוברת) ====== */
+function dairyTag(raw){
+  if(rx("פרווה").test(raw) || rx("פרוה").test(raw)) return "פרווה";
+  if(rx("חלבי").test(raw) || rx("חלבית").test(raw)) return "חלבי";
+  const t = raw.replace(/(שמנת\s+צמחית|חלב\s+(סויה|קוקוס|שקדים|אורז|שיבולת\s+שועל)|חמאת\s+בוטנים|ריץ)/g," ");
+  if(["חלב","חמאה","גבינה","גבינת","שמנת","יוגורט","שוקולד חלב","שוקולד לבן"].some(w => rx(w).test(t))) return "חלבי";
+  return raw.length > 60 ? "פרווה" : "";
+}
+
 /* ====== בניית מתכונים מהשורות ====== */
-function buildRecipes(headers, rows){
-  const freezeIdx = headers.findIndex(h => clean(h).includes("הקפיא"));
-  const authorIdx = headers.findIndex(h => clean(h).includes("כותבת"));
+function buildRecipes(key, headers, rows){
+  const col = COLLECTIONS[key];
+  const freezeIdx = headers.findIndex(h => /הקפא|הקפיא/.test(clean(h)));
+  const authorIdx = headers.findIndex(h => /כותבת|הניקית|נכתב/.test(clean(h)));
   return rows.map(cells => {
-    const values = headers.map((_,i) => clean(cells[i] || ""));
+    const values = headers.map((_,i) => tidy(cells[i] || ""));
     if(values.every(v => !v)) return null;
     const raw = denoise(clean(values.join(" ")));
     const tags = new Set();
-    PANTRY.forEach(g => g.items.forEach(([name, aliases]) => {
+    col.pantry.forEach(g => g.items.forEach(([name, aliases]) => {
       if(aliases.length && aliases.some(a => rx(a).test(raw))) tags.add(name);
     }));
-    chickenTags(raw).forEach(t => tags.add(t));
+    if(col.chicken) chickenTags(raw).forEach(t => tags.add(t));
+    if(key === "sweets"){ const d = dairyTag(raw); if(d) tags.add(d); }
     const author = authorIdx >= 0 ? values[authorIdx] : "";
     if(author) tags.add(author);
-    const title = values.find(v => v) || "ללא שם";
+    const title = clean(values.find(v => v)) || "ללא שם";
     const freeze = freezeIdx >= 0 && /כן/.test(values[freezeIdx] || "");
-    const id = hashText(values.join("|"));
+    // מזהה המועדפים של ארוחות ערב נשאר כמו קודם כדי לא לאבד מועדפים קיימים
+    const hash = hashText(values.map(clean).join("|"));
+    const id = key === "dinner" ? hash : key + ":" + hash;
     return {values, tags, title, freeze, author, id, search: values.join(" ")};
   }).filter(Boolean);
 }
@@ -630,7 +767,8 @@ function buildAuthorGroup(){
 }
 
 function buildPantry(){
-  const groups = AUTHOR_GROUP ? [...PANTRY, AUTHOR_GROUP] : PANTRY;
+  const base = COLLECTIONS[current].pantry;
+  const groups = AUTHOR_GROUP ? [...base, AUTHOR_GROUP] : base;
   document.getElementById("pantry").innerHTML = groups.map((g,i) => {
     const chips = g.items.map(([name]) =>
       `<button class="chip" aria-pressed="false" data-tag="${name}">${name}<span class="n">0</span></button>`
@@ -722,9 +860,24 @@ function drawCards(results){
   const box = document.getElementById("results");
   if(!results.length){
     box.className = "";
-    box.innerHTML = `<div class="empty-state">${svgIcon("i-pot")}
-      <b>הסיר ריק בשילוב הזה</b>
-      נסי להוריד סימון אחד, או לעבור ל"לפחות אחד" כדי לראות מתכונים שמכילים חלק מהחומרים.</div>`;
+    const col = COLLECTIONS[current], d = DATA[current] || {};
+    let msg;
+    if(!d.ok && !RECIPES.length){
+      msg = `<b>לא הצלחנו לקרוא את הלשונית הזו</b>
+        בדקי שהלשונית "${col.label}" קיימת בגיליון ושהגיליון משותף לצפייה, ואז לחצי "רענון".`;
+    } else if(!RECIPES.length){
+      msg = `<b>עוד אין כאן מתכונים</b>
+        ברגע שתתווסף שורה ללשונית "${col.label}" בגיליון, היא תופיע כאן אחרי רענון.`;
+    } else {
+      const elsewhere = query.trim() ? Object.keys(COLLECTIONS).filter(k => k !== current)
+        .map(k => [k, queryCount(k)]).filter(([,n]) => n) : [];
+      msg = `<b>הסיר ריק בשילוב הזה</b>
+        נסי להוריד סימון אחד, או לעבור ל"לפחות אחד" כדי לראות מתכונים שמכילים חלק מהחומרים.` +
+        (elsewhere.length ? `<br><br>החיפוש מצא תוצאות ב: ` + elsewhere.map(([k,n]) =>
+          `<button class="btn" data-goto="${k}">${COLLECTIONS[k].label} (${n})</button>`).join(" ") : "");
+    }
+    box.innerHTML = `<div class="empty-state">${svgIcon(col.fallbackIcon)}${msg}</div>`;
+    box.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => switchTab(b.dataset.goto));
     return;
   }
   box.className = "cards";
@@ -755,7 +908,58 @@ function drawCards(results){
   });
 }
 
+/* ====== לשוניות ====== */
+function queryCount(key){
+  const recs = (DATA[key] || {}).recipes || [];
+  if(!query.trim()) return recs.length;
+  const q = clean(query).toLowerCase();
+  return recs.filter(r => clean(r.search).toLowerCase().includes(q)).length;
+}
+
+function drawTabs(){
+  const nav = document.getElementById("tabs");
+  if(!nav.children.length){
+    nav.innerHTML = Object.entries(COLLECTIONS).map(([k,c]) =>
+      `<button class="tab" role="tab" data-key="${k}" style="--c:${c.color}" aria-selected="false">
+        ${svgIcon(c.icon)}<span>${c.label}</span><span class="n">…</span></button>`).join("");
+    nav.querySelectorAll(".tab").forEach(b => b.onclick = () => switchTab(b.dataset.key));
+  }
+  nav.querySelectorAll(".tab").forEach(b => {
+    const k = b.dataset.key;
+    b.setAttribute("aria-selected", k === current);
+    b.querySelector(".n").textContent = DATA[k] ? queryCount(k) : "…";
+  });
+}
+
+function applyCollection(){
+  const col = COLLECTIONS[current], d = DATA[current] || {headers:[], recipes:[]};
+  HEADERS = d.headers; RECIPES = d.recipes;
+  document.getElementById("heroTitle").innerHTML = col.title;
+  document.getElementById("heroLede").textContent = col.lede;
+  document.getElementById("pantryTitle").textContent = col.pantryTitle;
+  document.querySelectorAll(".diceLabel").forEach(e => e.textContent = col.dice);
+  document.title = `${col.pageTitle} · מזווה המתכונים`;
+  const hasFreeze = !RECIPES.length || RECIPES.some(r => r.freeze) || HEADERS.some(h => /הקפא|הקפיא/.test(h));
+  document.getElementById("freezeBtn").hidden = !hasFreeze;
+  if(!hasFreeze) freezeOnly = false;
+  if(d.status) setStatus(d.status.text, d.status.kind);
+  buildAuthorGroup();
+  pantryBuilt = false;
+}
+
+function switchTab(key){
+  if(!COLLECTIONS[key] || key === current) return;
+  current = key;
+  selected.clear(); mode = "and";
+  document.getElementById("modeBtn").setAttribute("aria-pressed","true");
+  document.getElementById("modeBtn").textContent = "כל הסימונים";
+  try{ history.replaceState(null, "", key === "dinner" ? location.pathname : "#" + key); }catch(e){}
+  applyCollection();
+  render();
+}
+
 function render(){
+  drawTabs();
   if(!pantryBuilt) buildPantry();
   const results = RECIPES.filter(matches);
   const n = results.length, total = RECIPES.length;
@@ -776,24 +980,46 @@ function setStatus(text, kind){
   document.getElementById("dot").className = "dot" + (kind ? " " + kind : "");
 }
 
+// קורא לשונית אחת. שם לשונית שגוי מחזיר בשקט את הלשונית הראשונה — לכן בודקים שלא קיבלנו את ארוחות הערב בטעות
+async function fetchSheet(key){
+  const col = COLLECTIONS[key];
+  for(const src of col.sources){
+    const res = await fetch(CSV_URL(src));
+    if(!res.ok) continue;
+    const rows = parseCSV(await res.text()).filter(r => r.some(c => c.trim()));
+    if(!rows.length) continue;
+    const isDinner = r => r.some(c => clean(c) === "חלבון");
+    if(key !== "dinner" && isDinner(rows[0])) continue;
+    let hi = col.marker ? rows.findIndex(r => r.some(c => clean(c) === col.marker)) : 0;
+    if(hi === -1) hi = 0;
+    // מורידים עמודות ריקות לגמרי (בלי כותרת ובלי ערכים)
+    const width = Math.max(...rows.map(r => r.length));
+    const keep = [...Array(width).keys()].filter(i => rows.some(r => (r[i] || "").trim()));
+    const pick = r => keep.map(i => r[i] || "");
+    const headers = pick(rows[hi]).map((h,i) => clean(h) || (i === 0 ? "מתכון" : "הערה"));
+    return {headers, recipes: buildRecipes(key, headers, rows.slice(hi + 1).map(pick))};
+  }
+  throw new Error("sheet not found");
+}
+
 async function load(){
   setStatus("טוען מהגיליון…");
-  try{
-    const res = await fetch(CSV_URL());
-    if(!res.ok) throw new Error(res.status);
-    const rows = parseCSV(await res.text()).filter(r => r.some(c => c.trim()));
-    let hi = rows.findIndex(r => r.some(c => clean(c) === "חלבון"));
-    if(hi === -1) hi = 0;
-    HEADERS = rows[hi].map((h,i) => clean(h) || (i === 0 ? "מתכון" : "הערה"));
-    RECIPES = buildRecipes(HEADERS, rows.slice(hi + 1));
-    const t = new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
-    setStatus(`מחובר לגיליון · עודכן ${t}`);
-  }catch(e){
-    HEADERS = FALLBACK_HEADERS;
-    RECIPES = buildRecipes(HEADERS, FALLBACK_ROWS);
-    setStatus("הקריאה החיה נחסמה — מוצג עותק מקומי. בדקי שהגיליון משותף לצפייה או מפורסם כ-CSV.", "err");
-  }
-  buildAuthorGroup();
+  const t = () => new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+  await Promise.all(Object.keys(COLLECTIONS).map(async key => {
+    try{
+      const d = await fetchSheet(key);
+      DATA[key] = {...d, ok:true, status:{text:`מחובר לגיליון · עודכן ${t()}`}};
+    }catch(e){
+      if(COLLECTIONS[key].fallback){
+        DATA[key] = {headers:FALLBACK_HEADERS, recipes:buildRecipes(key, FALLBACK_HEADERS, FALLBACK_ROWS), ok:false,
+          status:{text:"הקריאה החיה נחסמה — מוצג עותק מקומי. בדקי שהגיליון משותף לצפייה או מפורסם כ-CSV.", kind:"err"}};
+      } else {
+        DATA[key] = {headers:[], recipes:[], ok:false,
+          status:{text:`לא הצלחנו לקרוא את הלשונית "${COLLECTIONS[key].label}" מהגיליון.`, kind:"err"}};
+      }
+    }
+  }));
+  applyCollection();
   render();
 }
 
@@ -830,7 +1056,7 @@ document.getElementById("reset").onclick = () => {
   render();
 };
 document.getElementById("refresh").onclick = load;
-document.getElementById("openSheet").onclick = () => window.open(SHEET_URL,"_blank");
+document.getElementById("openSheet").onclick = () => window.open(SHEET_URL(COLLECTIONS[current].gid),"_blank");
 
 function rollDice(){
   const results = RECIPES.filter(matches);
@@ -842,6 +1068,10 @@ function rollDice(){
 document.getElementById("dice").onclick = rollDice;
 document.getElementById("diceM").onclick = rollDice;
 
+const fromHash = location.hash.replace("#","");
+if(COLLECTIONS[fromHash]) current = fromHash;
+applyCollection();
+drawTabs();
 load();
 </script>
 </body>
