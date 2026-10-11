@@ -249,6 +249,9 @@ dl.row dd a{color:var(--petrol);text-decoration-thickness:1.5px}
 footer{margin-top:48px;padding-top:18px;border-top:3px solid var(--ink);font-family:'Heebo';font-size:12.5px;color:var(--muted);line-height:1.9}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<!-- מונה כניסות: GoatCounter. כל לשונית נספרת בנפרד (לפי #) -->
+<script>window.goatcounter = {path: function(p){ return p + location.hash; }};</script>
+<script data-goatcounter="https://chaya123.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -954,6 +957,7 @@ function switchTab(key){
   document.getElementById("modeBtn").setAttribute("aria-pressed","true");
   document.getElementById("modeBtn").textContent = "כל הסימונים";
   try{ history.replaceState(null, "", key === "dinner" ? location.pathname : "#" + key); }catch(e){}
+  try{ if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: location.pathname + location.hash, title: COLLECTIONS[key].label}); }catch(e){}
   applyCollection();
   render();
 }
